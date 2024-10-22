@@ -9,6 +9,25 @@ public class Reservation
     public ReservationDate ReservationDate { get; private set; }
     public AreaId AreaId { get; private set; }
     public TeacherId TeacherId { get; private set; }
+
+    public Reservation(string title, DateTime start, DateTime end, int areaId, int teacherId)
+    {
+        Title = title;
+        ReservationDate = new ReservationDate(start, end);
+        AreaId = new AreaId(areaId);
+        TeacherId = new TeacherId(teacherId);
+    }
+
+    public void UpdateReservationDate(DateTime start, DateTime end)
+    {
+        ReservationDate = new ReservationDate(start, end);
+    }
+
+    public void UpdateTitle(string title)
+    {
+        Title = title;
+    }
+    
     
     
 
