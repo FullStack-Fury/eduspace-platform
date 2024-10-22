@@ -1,3 +1,4 @@
+using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.Commands;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects;
 
 namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.Aggregates;
@@ -27,8 +28,13 @@ public class Reservation
     {
         Title = title;
     }
-    
-    
-    
+
+    public Reservation(CreateReservationCommand command)
+    {
+        Title = command.Title;
+        ReservationDate = new ReservationDate(command.Start, command.End);
+        AreaId = new AreaId(command.AreaId);
+        TeacherId = new TeacherId(command.TeacherId);
+    }
 
 }
