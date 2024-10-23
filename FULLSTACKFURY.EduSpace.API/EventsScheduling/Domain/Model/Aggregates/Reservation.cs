@@ -37,4 +37,10 @@ public class Reservation
         TeacherId = new TeacherId(command.TeacherId);
     }
 
+    public bool CanReserve(IEnumerable<Reservation> existingReservations)
+    {
+        return existingReservations.All(r =>
+            (ReservationDate.Start < r.ReservationDate.Start || ReservationDate.Start > r.ReservationDate.End) &&
+            (ReservationDate.End < r.ReservationDate.Start || ReservationDate.End > r.ReservationDate.End));
+    }
 }
