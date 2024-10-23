@@ -14,4 +14,9 @@ public class ReservationRepository(AppDbContext context)
     {
         return await Context.Set<Reservation>().Where(f => f.AreaId.Id == areaId).ToListAsync();
     }
+
+    public async Task<IEnumerable<Reservation>> FindByAreaIdMonthAndDayAsync(int areaId, int month, int day)
+    {
+        return await Context.Set<Reservation>().Where(f => f.AreaId.Id == areaId && f.ReservationDate.Start.Month == month && f.ReservationDate.Start.Day == day).ToListAsync();
+    }
 }
