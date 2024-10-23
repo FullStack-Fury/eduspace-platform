@@ -7,4 +7,6 @@ public interface IReservationQueryService
 {
     Task<IEnumerable<Reservation>> Handle(GetAllReservationsQuery query);
     Task<IEnumerable<Reservation>> Handle(GetReservationsByAreaIdQuery query);
+    Task<IEnumerable<Reservation>> Handle(GetReservationByAreaIdMonthAndDay query);
+
 }
