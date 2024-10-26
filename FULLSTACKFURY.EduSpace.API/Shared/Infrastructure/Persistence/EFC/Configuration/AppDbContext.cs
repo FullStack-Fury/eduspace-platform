@@ -1,5 +1,6 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
-using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates; // Asegúrate de que las referencias estén correctas
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -49,7 +50,26 @@ public class AppDbContext : DbContext
             entity.Ignore(p => p.SalaryNet);
         });
 
+        // Configuración de la entidad Report
+        builder.Entity<Report>(entity =>
+        {
+            entity.HasKey(r => r.Id); // Clave principal
+
+            entity.Property(r => r.KindOfReport).HasColumnName("kind_of_report").IsRequired(); // Configuración para KindOfReport
+            entity.Property(r => r.Description).HasColumnName("description").IsRequired(); // Configuración para Description
+
+           
+            entity.OwnsOne(r => r.ResourceId, ri =>
+            {
+                ri.Property(r => r.Id).HasColumnName("resource_id").IsRequired();
+            });
+
+            // Configuración de la propiedad CreatedAt
+            entity.Property(r => r.CreatedAt)
+                .HasColumnName("created_at")
+                .IsRequired(); 
+        });
+
         base.OnModelCreating(builder);
     }
-
 }
