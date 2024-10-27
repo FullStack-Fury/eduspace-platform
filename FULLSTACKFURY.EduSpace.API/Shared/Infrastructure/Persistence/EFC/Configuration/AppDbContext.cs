@@ -1,5 +1,6 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates; // Asegúrate de que las referencias estén correctas
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,6 @@ public class AppDbContext : DbContext
         {
             entity.HasKey(p => p.Id); // Clave principal
 
-            // Configurar los objetos de valor con nombres de columnas específicos
             entity.OwnsOne(p => p.SalaryAmount, sa =>
             {
                 sa.Property(p => p.Value).HasColumnName("salary_amount").IsRequired();
@@ -58,18 +58,22 @@ public class AppDbContext : DbContext
             entity.Property(r => r.KindOfReport).HasColumnName("kind_of_report").IsRequired(); // Configuración para KindOfReport
             entity.Property(r => r.Description).HasColumnName("description").IsRequired(); // Configuración para Description
 
-           
             entity.OwnsOne(r => r.ResourceId, ri =>
             {
                 ri.Property(r => r.Id).HasColumnName("resource_id").IsRequired();
             });
 
-            // Configuración de la propiedad CreatedAt
+            // Usando un convertidor de valor para mapear ReportDate a DateTime
             entity.Property(r => r.CreatedAt)
+                .HasConversion(
+                    v => v.CreatedAt, // Convertir ReportDate a DateTime
+                    v => new ReportDate(v) // Convertir DateTime a ReportDate
+                )
                 .HasColumnName("created_at")
-                .IsRequired(); 
+                .IsRequired();
         });
 
         base.OnModelCreating(builder);
     }
+
 }
