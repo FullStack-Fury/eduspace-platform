@@ -40,53 +40,16 @@ public class AppDbContext : DbContext
                   .HasForeignKey(p => p.TeacherId)
                   .IsRequired(); // Clave foránea hacia Teacher
 
-            // Configurar los objetos de valor con nombres de columnas específicos
-            entity.OwnsOne(p => p.SalaryAmount, sa =>
-            {
-                sa.Property(p => p.Value).HasColumnName("salary_amount").IsRequired();
-            });
-
-            entity.OwnsOne(p => p.PensionContribution, pc =>
-            {
-                pc.Property(p => p.Value).HasColumnName("pension_contribution").IsRequired();
-            });
-
-            entity.OwnsOne(p => p.SalaryBonus, sb =>
-            {
-                sb.Property(p => p.Value).HasColumnName("salary_bonus").IsRequired();
-            });
-
-            entity.OwnsOne(p => p.OtherDeductions, od =>
-            {
-                od.Property(p => p.Value).HasColumnName("other_deductions").IsRequired();
-            });
-
-            // Configurar los nuevos objetos de valor
-            entity.OwnsOne(p => p.DatePayment, dp =>
-            {
-                dp.Property(p => p.Value).HasColumnName("date_payment").IsRequired();
-            });
-
-            entity.OwnsOne(p => p.PaymentMethod, pm =>
-            {
-                pm.Property(p => p.Value).HasColumnName("payment_method").IsRequired().HasMaxLength(50);
-            });
-
-            entity.OwnsOne(p => p.Account, a =>
-            {
-                a.Property(p => p.Value).HasColumnName("account").IsRequired().HasMaxLength(50);
-            });
-
-            entity.OwnsOne(p => p.Observation, obs =>
-            {
-                obs.Property(p => p.Value).HasColumnName("observation").HasMaxLength(250);
-            });
-
-            // Mapeo de SalaryNet como un ValueObject persistente
-            entity.OwnsOne(p => p.SalaryNet, sn =>
-            {
-                sn.Property(p => p.Value).HasColumnName("salary_net").IsRequired();
-            });
+            // Mapeo de propiedades primitivas directamente
+            entity.Property(p => p.SalaryAmount).HasColumnName("salary_amount").IsRequired();
+            entity.Property(p => p.PensionContribution).HasColumnName("pension_contribution").IsRequired();
+            entity.Property(p => p.SalaryBonus).HasColumnName("salary_bonus").IsRequired();
+            entity.Property(p => p.OtherDeductions).HasColumnName("other_deductions").IsRequired();
+            entity.Property(p => p.SalaryNet).HasColumnName("salary_net").IsRequired();
+            entity.Property(p => p.DatePayment).HasColumnName("date_payment").IsRequired();
+            entity.Property(p => p.PaymentMethod).HasColumnName("payment_method").HasMaxLength(50).IsRequired();
+            entity.Property(p => p.Account).HasColumnName("account").HasMaxLength(50).IsRequired();
+            entity.Property(p => p.Observation).HasColumnName("observation").HasMaxLength(250);
         });
 
         // Agregar datos de seeding para Teacher
