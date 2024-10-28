@@ -3,6 +3,7 @@ using FULLSTACKFURY.EduSpace.API.PayrollManagement.Application.Internal.CommandS
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Infrastructure.Persistence.EFC.Repositories;
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontendLocalhost",
-        policy => policy.WithOrigins("http://localhost:5174", "https://localhost:5174") // Agrega ambas versiones
+        policy => policy.WithOrigins("http://localhost:5173", "https://localhost:5173") // Agrega ambas versiones
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials());
@@ -45,6 +46,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Registrar los servicios de consultas y comandos para Teacher y Payroll
 builder.Services.AddScoped<TeacherQueryService>();
+builder.Services.AddScoped<PayrollQueryService>();
 builder.Services.AddScoped<IPayrollCommandService, PayrollCommandService>();
 
 // Registrar el repositorio de Payroll y el UnitOfWork
@@ -91,6 +93,14 @@ app.MapGet("/teachers", async (TeacherQueryService teacherService) =>
     return Results.Ok(teachers);
 });
 
+// Definir el endpoint para obtener todos los payrolls sin el prefijo '/api'
+app.MapGet("/payroll", async (PayrollQueryService payrollService) =>
+{
+    var query = new GetAllPayrollsQuery(); // Crear una instancia del query
+    var payrolls = await payrollService.Handle(query);
+    return Results.Ok(payrolls);
+});
+
 // Definir el endpoint para crear un payroll sin el prefijo '/api' utilizando el comando correspondiente
 app.MapPost("/payroll", async (CreatePayrollCommand command, IPayrollCommandService payrollService) =>
 {
@@ -101,7 +111,5 @@ app.MapPost("/payroll", async (CreatePayrollCommand command, IPayrollCommandServ
     }
     return Results.BadRequest("Error al crear el payroll");
 });
-
-
 
 app.Run();
