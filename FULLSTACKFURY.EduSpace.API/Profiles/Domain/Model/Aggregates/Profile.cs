@@ -17,11 +17,11 @@ public class Profile : IEntityWithCreatedUpdatedDate
 
     public Profile(string firstName, string lastName
         , string email, string dni, string address
-        , string phone, int accountId)
+        , string phone, AccountId accountId)
     {
         this.ProfileName = new ProfileName(firstName, lastName);
         this.ProfilePrivateInformation = new ProfilePrivateInformation(email, dni, address, phone);
-        this.AccountId = new AccountId(accountId);
+        AccountId = accountId;
     }
     
     public string ProfileFullName => ProfileName.FullName;
