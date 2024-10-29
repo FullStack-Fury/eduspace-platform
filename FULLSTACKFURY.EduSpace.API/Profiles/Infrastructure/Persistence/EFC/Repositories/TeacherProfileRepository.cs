@@ -14,4 +14,9 @@ public class TeacherProfileRepository(AppDbContext context) : BaseRepository<Tea
             .Where(t => t.AdministratorId == id)
             .ToListAsync();
     }
+
+    public bool ExistsByTeacherProfileId(int teacherProfileId)
+    {
+        return Context.Set<TeacherProfile>().Any(teacherProfile => teacherProfile.Id == teacherProfileId);
+    }
 }

@@ -7,5 +7,8 @@ namespace FULLSTACKFURY.EduSpace.API.Profiles.Infrastructure.Persistence.EFC.Rep
 
 public class AdminProfileRepository(AppDbContext context) : BaseRepository<AdminProfile>(context), IAdminProfileRepository
 {
-
+    public bool ExistsByAdminProfileId(int adminProfileId)
+    {
+        return Context.Set<AdminProfile>().Any(adminProfile => adminProfile.Id == adminProfileId);
+    }
 }
