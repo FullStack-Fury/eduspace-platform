@@ -1,46 +1,47 @@
-﻿
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.ValueObjects;
+﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Entities;
 
 namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
 
 /// <summary>
-/// Represents a classroom in the application. 
+/// Classroom aggregate root entity
 /// </summary>
 /// <remarks>
-/// A classroom is a space that is used for teaching and learning.
+/// This class is used to represent a classroom in the application.
 /// </remarks>
-public class Classroom
+public partial class Classroom
 {
     public int Id { get; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public  TeacherId Teacher { get; private set; }
-    
+    public Teacher Teacher { get; internal set; }
     public int TeacherId { get; private set; }
     
-    public Classroom(string name, string description, int teacherId)
+    /// <summary>
+    /// Default constructor for the classroom entity
+    /// </summary>
+    public Classroom() { }
+
+    /// <param name="name">
+    /// The name of the classroom
+    /// </param>
+    /// <param name="description">
+    /// The description of the classroom
+    /// </param>
+    /// <param name="teacherId">
+    /// The teacher id for the classroom
+    /// </param>
+    public Classroom(string name, string description, int teacherId) : this()
     {
         Name = name;
         Description = description;
         TeacherId = teacherId;
-        
     }
     
-    public Classroom(CreateClassroomCommand command)
+    public Classroom(CreateClassroomCommand command) : this()
     {
         Name = command.Name;
         Description = command.Description;
         TeacherId = command.TeacherId;
-    }
-    
-    public void UpdateName(string name)
-    {
-        Name = name;
-    }
-    
-    public void UpdateDescription(string description)
-    {
-        Description = description;
     }
 }
