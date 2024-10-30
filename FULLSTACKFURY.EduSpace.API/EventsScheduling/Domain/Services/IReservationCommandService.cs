@@ -6,4 +6,5 @@ namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Services;
 public interface IReservationCommandService
 {
     Task<Reservation?> Handle (CreateReservationCommand command);
+    void Handle(DeleteReservationCommand command);
 }
