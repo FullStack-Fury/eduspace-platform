@@ -1,5 +1,6 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
@@ -59,6 +60,31 @@ public class AppDbContext : DbContext
             new Teacher("Michael Johnson") { Id = 3 }
         );
 
+        //Teacher Profiles Context
+        builder.Entity<TeacherProfile>().HasKey(tp => tp.Id);
+        builder.Entity<TeacherProfile>().Property(tp => tp.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<TeacherProfile>().Property(tp => tp.AdministratorId).IsRequired();
+        builder.Entity<TeacherProfile>().OwnsOne(tp => tp.ProfileName,
+            pn =>
+            {
+                pn.WithOwner().HasForeignKey("Id");
+                pn.Property(tp => tp.FirstName).HasColumnName("FirstName");
+                pn.Property(tp => tp.LastName).HasColumnName("LastName");
+            });
+
+        builder.Entity<TeacherProfile>().OwnsOne(tp => tp.ProfilePrivateInformation,
+            pi =>
+            {
+                pi.WithOwner().HasForeignKey("Id");
+                pi.Property(tp => tp.Email).HasColumnName("Email");
+                pi.Property(tp => tp.Dni).HasColumnName("Dni");
+                pi.Property(tp => tp.Address).HasColumnName("Address");
+                pi.Property(tp => tp.Phone).HasColumnName("Phone");
+
+            });
+        
+        
+        
         base.OnModelCreating(builder);
     }
 }
