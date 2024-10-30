@@ -4,18 +4,18 @@ using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Com
 namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
 
 /// <summary>
-/// Represents the Classroom command service in the Platform. 
+/// Represents the classroom command service in the EduSpace API. 
 /// </summary>
 public interface IClassroomCommandService
 {
     /// <summary>
-    /// Handles the create Classroom command in the Platform. 
+    /// Handles the create classroom command in the EduSpace API.
     /// </summary>
     /// <param name="command">
     /// The <see cref="CreateClassroomCommand"/> command to handle.
     /// </param>
     /// <returns>
-    /// The created <see cref="Resource"/> entity.
+    /// The created <see cref="Classroom"/> entity.
     /// </returns>
-    public Task<Classroom?> Handle(CreateClassroomCommand command);
+    Task<Classroom?> Handle(CreateClassroomCommand command);
 }
