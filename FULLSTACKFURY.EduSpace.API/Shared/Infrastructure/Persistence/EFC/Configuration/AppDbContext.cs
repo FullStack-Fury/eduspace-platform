@@ -1,20 +1,12 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions options) : DbContext(options)
 {
-    public DbSet<Teacher> Teachers { get; set; } // Agregar DbSet para Teacher
-    public DbSet<Payroll> Payrolls { get; set; } // DbSet para Payroll
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
         builder.AddCreatedUpdatedInterceptor();
@@ -86,5 +78,9 @@ public class AppDbContext : DbContext
         
         
         base.OnModelCreating(builder);
+        
+        //#TODO Add configurations here
+        
+        builder.UseSnakeCaseNamingConvention();
     }
 }
