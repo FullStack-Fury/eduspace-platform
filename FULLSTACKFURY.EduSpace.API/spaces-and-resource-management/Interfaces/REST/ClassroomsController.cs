@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Transform;
 
 [ApiController]
-[Route("api/vi/[controller]")]
+[Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Classroom Endpoints")]
 public class ClassroomsController(IClassroomQueryService classroomQueryService, IClassroomCommandService classroomCommandService) : ControllerBase

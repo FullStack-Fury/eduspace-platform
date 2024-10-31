@@ -13,7 +13,7 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.R
 /// </summary>
 /// <param name="classroomQueryService"></param>
 [ApiController]
-[Route("api/vi/teachers/{teacherId:int}/classrooms")]
+[Route("api/v1/teachers/{teacherId:int}/classrooms")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Teachers")]
 public class TeacherClassroomsController(IClassroomQueryService classroomQueryService) : ControllerBase
