@@ -1,61 +1,65 @@
 ﻿using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 
 namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Application.Internal.CommandServices;
 
+/// <summary>
+/// Represents a command service for managing payroll entities.
+/// </summary>
+/// <param name="repository">
+/// The repository for payroll entities.
+/// </param>
+/// <param name="unitOfWork">
+/// The unit of work for managing transactions.
+/// </param>
 public class PayrollCommandService : IPayrollCommandService
 {
-    private readonly IPayrollRepository _payrollRepository;
+    private readonly IPayrollRepository _repository;
     private readonly IUnitOfWork _unitOfWork;
 
-    // Constructor
-    public PayrollCommandService(IPayrollRepository payrollRepository, IUnitOfWork unitOfWork)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="PayrollCommandService"/> class.
+    /// </summary>
+    /// <param name="repository">The payroll repository instance.</param>
+    /// <param name="unitOfWork">The unit of work for transaction management.</param>
+    public PayrollCommandService(IPayrollRepository repository, IUnitOfWork unitOfWork)
     {
-        _payrollRepository = payrollRepository;
+        _repository = repository;
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<Payroll?> Handle(CreatePayrollCommand command)
+    /// <summary>
+    /// Handles the creation of a new payroll entry.
+    /// </summary>
+    /// <param name="command">The <see cref="CreatePayrollCommand"/> containing payroll details.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains the created payroll entry.
+    /// </returns>
+    public async Task<Payroll> Handle(CreatePayrollCommand command)
     {
-        var payroll = new Payroll(
-            command.TeacherId,
-            new SalaryAmount(command.SalaryAmount),
-            new PensionContribution(command.PensionContribution),
-            new SalaryBonus(command.SalaryBonus),
-            new OtherDeductions(command.OtherDeductions),
-            new DatePayment(command.DatePayment),
-            new PaymentMethod(command.PaymentMethod),
-            new Account(command.Account),
-            new Observation(command.Observation)
-        );
-
-        await _payrollRepository.AddAsync(payroll);
-        await _unitOfWork.CompleteAsync(); // Aquí ya puedes usar _unitOfWork
+        var payroll = new Payroll(command);
+        await _repository.AddAsync(payroll);
+        await _unitOfWork.CompleteAsync();
         return payroll;
     }
 
-    public async Task<Payroll?> Handle(UpdatePayrollCommand command)
+    /// <summary>
+    /// Handles the update of an existing payroll entry.
+    /// </summary>
+    /// <param name="command">The <see cref="UpdatePayrollCommand"/> containing updated payroll details.</param>
+    /// <exception cref="KeyNotFoundException">
+    /// Thrown when the payroll entry with the specified ID is not found.
+    /// </exception>
+    public async Task Handle(UpdatePayrollCommand command)
     {
-        var payroll = await _payrollRepository.GetByIdAsync(command.Id);
-        if (payroll == null) return null;
+        var payroll = await _repository.GetByIdAsync(command.PayrollId);
+        if (payroll == null) throw new KeyNotFoundException("Payroll not found.");
 
-        payroll.UpdatePayroll(
-            new SalaryAmount(command.SalaryAmount),
-            new PensionContribution(command.PensionContribution),
-            new SalaryBonus(command.SalaryBonus),
-            new OtherDeductions(command.OtherDeductions),
-            new DatePayment(command.DatePayment),
-            new PaymentMethod(command.PaymentMethod),
-            new Account(command.Account),
-            new Observation(command.Observation)
-        );
-
-        _payrollRepository.Update(payroll);
+        payroll.UpdatePayroll(command);
+        _repository.Update(payroll);
         await _unitOfWork.CompleteAsync();
-        return payroll;
     }
 }

@@ -1,50 +1,63 @@
 ﻿using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+
 using Microsoft.EntityFrameworkCore;
 
-namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Infrastructure.Persistence.EFC.Repositories
+namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Infrastructure.Persistence.EFC.Repositories;
+
+public class PayrollRepository : BaseRepository<Payroll>, IPayrollRepository
 {
-    public class PayrollRepository : IPayrollRepository
+    public PayrollRepository(AppDbContext context) : base(context) { }
+
+    /// <summary>
+    /// Retrieves all payrolls from the database.
+    /// </summary>
+    public async Task<IEnumerable<Payroll>> GetAllAsync()
     {
-        private readonly AppDbContext _context;
+        return await Context.Set<Payroll>().ToListAsync();
+    }
 
-        public PayrollRepository(AppDbContext context)
-        {
-            _context = context;
-        }
+    /// <summary>
+    /// Retrieves a payroll by its ID.
+    /// </summary>
+    public async Task<Payroll?> GetByIdAsync(int id)
+    {
+        return await Context.Set<Payroll>().FindAsync(id);
+    }
 
-        public async Task<IEnumerable<Payroll>> GetAllAsync()
-        {
-            return await _context.Set<Payroll>().ToListAsync();
-        }
+    /// <summary>
+    /// Adds a new payroll to the database.
+    /// </summary>
+    public async Task AddAsync(Payroll payroll)
+    {
+        await Context.Set<Payroll>().AddAsync(payroll);
+    }
 
-        public async Task<Payroll?> GetByIdAsync(int id)
-        {
-            return await _context.Set<Payroll>().FirstOrDefaultAsync(p => p.Id == id);
-        }
+    /// <summary>
+    /// Updates an existing payroll in the database.
+    /// </summary>
+    public void Update(Payroll payroll)
+    {
+        Context.Set<Payroll>().Update(payroll);
+    }
 
-        public async Task AddAsync(Payroll payroll)
-        {
-            await _context.Set<Payroll>().AddAsync(payroll);
-            await _context.SaveChangesAsync();
-        }
+    /// <summary>
+    /// Deletes a payroll from the database.
+    /// </summary>
+    public void Delete(Payroll payroll)
+    {
+        Context.Set<Payroll>().Remove(payroll);
+    }
 
-        public void Update(Payroll payroll)
-        {
-            _context.Set<Payroll>().Update(payroll);
-            _context.SaveChangesAsync();
-        }
-
-        public void Delete(Payroll payroll)
-        {
-            _context.Set<Payroll>().Remove(payroll);
-            _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Payroll>> FindByTeacherIdAsync(int teacherId)
-        {
-            return await _context.Set<Payroll>().Where(p => p.TeacherId == teacherId).ToListAsync();
-        }
+    /// <summary>
+    /// Finds all payrolls associated with a specific teacher ID.
+    /// </summary>
+    public async Task<IEnumerable<Payroll>> FindAllByTeacherIdAsync(int teacherId)
+    {
+        return await Context.Set<Payroll>()
+            .Where(p => p.TeacherId == teacherId)
+            .ToListAsync();
     }
 }
