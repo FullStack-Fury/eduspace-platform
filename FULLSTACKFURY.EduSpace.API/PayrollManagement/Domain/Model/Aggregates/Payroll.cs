@@ -1,63 +1,71 @@
-﻿using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
-using System;
+﻿using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.ValueObjects;
 
-namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates
+namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
+
+/// <summary>
+/// Payroll aggregate root entity.
+/// </summary>
+/// <remarks>
+/// This class is used to represent payroll details for a teacher in the application.
+/// </remarks>
+public partial class Payroll
 {
-    public class Payroll
+    public int Id { get; private set; }
+    public int TeacherId { get; private set; }
+    public SalaryAmount SalaryAmount { get; private set; }
+    public PensionContribution PensionContribution { get; private set; }
+    public SalaryBonus SalaryBonus { get; private set; }
+    public OtherDeductions OtherDeductions { get; private set; }
+    public DatePayment DatePayment { get; private set; }
+    public PaymentMethod PaymentMethod { get; private set; }
+    public Observation? Observation { get; private set; }
+    public SalaryNet SalaryNet { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Payroll"/> class based on the specified command.
+    /// </summary>
+    /// <param name="command">
+    /// The <see cref="CreatePayrollCommand"/> containing payroll details to initialize this instance.
+    /// </param>
+    public Payroll(CreatePayrollCommand command)
     {
-        public int Id { get; private set; }
-        public int TeacherId { get; private set; }
-        public Teacher Teacher { get; private set; }  // Relación con Teacher
+        TeacherId = command.TeacherId;
+        SalaryAmount = new SalaryAmount(command.SalaryAmount);
+        PensionContribution = new PensionContribution(command.PensionContribution);
+        SalaryBonus = new SalaryBonus(command.SalaryBonus);
+        OtherDeductions = new OtherDeductions(command.OtherDeductions);
+        DatePayment = new DatePayment(command.DatePayment);
+        PaymentMethod = new PaymentMethod(command.PaymentMethod);
+        Observation = command.Observation != null ? new Observation(command.Observation) : null;
+        CalculateNetSalary();
+    }
 
-        public decimal SalaryAmount { get; private set; }  
-        public decimal PensionContribution { get; private set; }  
-        public decimal SalaryBonus { get; private set; }  
-        public decimal OtherDeductions { get; private set; }  
-        public decimal SalaryNet { get; private set; }  // Propiedad calculada
-        public DateTime DatePayment { get; private set; }
-        public string PaymentMethod { get; private set; }
-        public string Account { get; private set; }
-        public string Observation { get; private set; }
+    /// <summary>
+    /// Updates the current payroll instance with new details from the specified command.
+    /// </summary>
+    /// <param name="command">
+    /// The <see cref="UpdatePayrollCommand"/> containing updated payroll details.
+    /// </param>
+    public void UpdatePayroll(UpdatePayrollCommand command)
+    {
+        SalaryAmount = new SalaryAmount(command.SalaryAmount);
+        PensionContribution = new PensionContribution(command.PensionContribution);
+        SalaryBonus = new SalaryBonus(command.SalaryBonus);
+        OtherDeductions = new OtherDeductions(command.OtherDeductions);
+        DatePayment = new DatePayment(command.DatePayment);
+        PaymentMethod = new PaymentMethod(command.PaymentMethod);
+        Observation = command.Observation != null ? new Observation(command.Observation) : null;
+        CalculateNetSalary();
+    }
 
-        // Constructor sin parámetros para EF Core
-        private Payroll() { }
-
-        public Payroll(int teacherId, decimal salaryAmount, decimal pensionContribution, decimal salaryBonus, decimal otherDeductions,
-                       DateTime datePayment, string paymentMethod, string account, string observation)
-        {
-            TeacherId = teacherId;
-            SalaryAmount = salaryAmount;
-            PensionContribution = pensionContribution;
-            SalaryBonus = salaryBonus;
-            OtherDeductions = otherDeductions;
-            DatePayment = datePayment;
-            PaymentMethod = paymentMethod;
-            Account = account;
-            Observation = observation;
-
-            // Calcular SalaryNet
-            CalculateNetSalary();
-        }
-
-        public void UpdatePayroll(decimal salaryAmount, decimal pensionContribution, decimal salaryBonus, decimal otherDeductions,
-                                  DateTime datePayment, string paymentMethod, string account, string observation)
-        {
-            SalaryAmount = salaryAmount;
-            PensionContribution = pensionContribution;
-            SalaryBonus = salaryBonus;
-            OtherDeductions = otherDeductions;
-            DatePayment = datePayment;
-            PaymentMethod = paymentMethod;
-            Account = account;
-            Observation = observation;
-
-            // Calcular SalaryNet
-            CalculateNetSalary();
-        }
-
-        private void CalculateNetSalary()
-        {
-            SalaryNet = SalaryAmount + SalaryBonus - PensionContribution - OtherDeductions;
-        }
+    /// <summary>
+    /// Calculates the net salary based on the following formula:
+    /// Net Salary = SalaryAmount - PensionContribution + SalaryBonus - OtherDeductions
+    /// </summary>
+    private void CalculateNetSalary()
+    {
+        SalaryNet = new SalaryNet(SalaryAmount.Value - PensionContribution.Value + SalaryBonus.Value - OtherDeductions.Value);
     }
 }
