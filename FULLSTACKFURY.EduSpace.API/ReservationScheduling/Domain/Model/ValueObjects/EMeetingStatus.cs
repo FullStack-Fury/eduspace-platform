@@ -3,7 +3,6 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObj
 public enum EMeetingStatus
 {
     Scheduled,
-    Start,
-    Completed,
+    Update,
     Canceled
 }
