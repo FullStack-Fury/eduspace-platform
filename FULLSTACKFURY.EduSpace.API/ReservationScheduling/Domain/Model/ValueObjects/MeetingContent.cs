@@ -1,3 +1,3 @@
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects;
 
-public record MeetingContent(string title, string description, DateTime date, TimeSpan startTime, TimeSpan endTime);
+public record MeetingContent(string Title, string Description, DateTime Date, TimeSpan StartTime, TimeSpan EndTime, List<InvitedTeacher> InvitedTeachers);
