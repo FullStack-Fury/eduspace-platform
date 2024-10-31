@@ -20,6 +20,6 @@ public class ClassroomResourceFromEntityAssembler
     public static ClassroomResource ToResourceFromEntity(Classroom entity)
     {
         return new ClassroomResource(entity.Id, entity.Name, entity.Description,
-            TeacherResourceFromEntityAssembler.ToResourceFromEntity(entity.Teacher));
+        TeacherResourceFromEntityAssembler.ToResourceFromEntity(entity.Teacher));
     }
 }
