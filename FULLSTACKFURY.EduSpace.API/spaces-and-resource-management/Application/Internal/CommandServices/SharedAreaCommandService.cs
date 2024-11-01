@@ -18,11 +18,11 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.
 public class SharedAreaCommandService(ISharedAreaRepository sharedAreaRepository, IUnitOfWork unitOfWork) : ISharedAreaCommandService
 {
     /// <inheritDoc />
-    public async Task<sharedArea?> Handle(CreateSharedAreaCommand command)
+    public async Task<SharedArea?> Handle(CreateSharedAreaCommand command)
     {
         if(await sharedAreaRepository.ExistsByNameAsync(command.Name))
             throw new Exception("Shared area with the same name already exists.");
-        var sharedArea = new sharedArea(command);
+        var sharedArea = new SharedArea(command);
         await sharedAreaRepository.AddAsync(sharedArea);
         await unitOfWork.CompleteAsync();
         return sharedArea;

@@ -14,13 +14,13 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.
 public class SharedAreaQueryService(ISharedAreaRepository sharedAreaRepository) : ISharedAreaQueryService
 {
     /// <Inheritdoc/>
-    public async Task<sharedArea?> Handle(GetSharedAreaByIdQuery query)
+    public async Task<SharedArea?> Handle(GetSharedAreaByIdQuery query)
     {
         return await sharedAreaRepository.FindByIdAsync(query.SharedAreaId);
     }
     
     /// <Inheritdoc/>
-    public async Task<IEnumerable<sharedArea>> Handle(GetAllSharedAreasQuery query)
+    public async Task<IEnumerable<SharedArea>> Handle(GetAllSharedAreasQuery query)
     {
         return await sharedAreaRepository.ListAsync();
     }

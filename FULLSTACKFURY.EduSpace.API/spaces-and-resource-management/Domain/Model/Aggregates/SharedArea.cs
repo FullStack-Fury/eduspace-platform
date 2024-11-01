@@ -8,7 +8,7 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model
 /// <remarks>
 /// This class is used to represent a shared area in the application.
 /// </remarks>
-public partial class sharedArea
+public partial class SharedArea
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -18,7 +18,7 @@ public partial class sharedArea
     /// <summary>
     /// Default constructor for the shared area entity
     /// </summary>
-    public sharedArea()
+    public SharedArea()
     {
     }
     
@@ -31,14 +31,14 @@ public partial class sharedArea
     /// <param name="description">
     /// The description of the shared area
     /// </param>
-    public sharedArea(string name, int capacity, string description): this()
+    public SharedArea(string name, int capacity, string description): this()
     {
         Name = name;
         Capacity = capacity;
         Description = description;
     }
     
-    public sharedArea(CreateSharedAreaCommand command): this()
+    public SharedArea(CreateSharedAreaCommand command): this()
     {
         Name = command.Name;
         Capacity = command.Capacity;

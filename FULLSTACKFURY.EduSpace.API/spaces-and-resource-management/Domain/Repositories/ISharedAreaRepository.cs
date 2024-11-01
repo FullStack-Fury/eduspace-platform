@@ -6,7 +6,7 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repos
 /// <summary>
 ///  Represents a repository for shared areas in the EduSpace API.
 /// </summary>
-public interface ISharedAreaRepository : IBaseRepository<sharedArea>
+public interface ISharedAreaRepository : IBaseRepository<SharedArea>
 {
     /// <summary>
     ///  Verify if a shared area with specified title exists.

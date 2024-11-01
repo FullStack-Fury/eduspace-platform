@@ -15,7 +15,7 @@ public interface ISharedAreaCommandService
     /// The <see cref="CreateSharedAreaCommand"/> command to handle.
     /// </param>
     /// <returns>
-    /// The created <see cref="sharedArea"/> entity.
+    /// The created <see cref="SharedArea"/> entity.
     /// </returns>
-    Task<sharedArea?> Handle(CreateSharedAreaCommand command);
+    Task<SharedArea?> Handle(CreateSharedAreaCommand command);
 }

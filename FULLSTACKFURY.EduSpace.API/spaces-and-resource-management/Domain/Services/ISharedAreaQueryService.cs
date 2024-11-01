@@ -15,9 +15,9 @@ public interface ISharedAreaQueryService
     /// The <see cref="GetSharedAreaByIdQuery"/> query to handle.
     /// </param>
     /// <returns>
-    /// The <see cref="sharedArea"/> entity.
+    /// The <see cref="SharedArea"/> entity.
     /// </returns>
-    Task<sharedArea?> Handle(GetSharedAreaByIdQuery query);
+    Task<SharedArea?> Handle(GetSharedAreaByIdQuery query);
     
     /// <summary>
     /// Handles the get all shared area query in the EduSpace API.
@@ -28,5 +28,5 @@ public interface ISharedAreaQueryService
     /// <returns>
     /// A collection of all shared area in the platform.
     /// </returns>
-    Task<IEnumerable<sharedArea>> Handle(GetAllSharedAreasQuery query);
+    Task<IEnumerable<SharedArea>> Handle(GetAllSharedAreasQuery query);
 }
