@@ -1,0 +1,32 @@
+﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
+
+namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
+
+/// <summary>
+/// Represents the shared area query service in the EduSpace API.
+/// </summary>
+public interface ISharedAreaQueryService
+{
+    /// <summary>
+    /// Handles the get shared area by id query in the EduSpace API.
+    /// </summary>
+    /// <param name="query">
+    /// The <see cref="GetSharedAreaByIdQuery"/> query to handle.
+    /// </param>
+    /// <returns>
+    /// The <see cref="sharedArea"/> entity.
+    /// </returns>
+    Task<sharedArea?> Handle(GetSharedAreaByIdQuery query);
+    
+    /// <summary>
+    /// Handles the get all shared area query in the EduSpace API.
+    /// </summary>
+    /// <param name="query">
+    /// The <see cref="GetAllSharedAreasQuery"/> query to handle.
+    /// </param>
+    /// <returns>
+    /// A collection of all shared area in the platform.
+    /// </returns>
+    Task<IEnumerable<sharedArea>> Handle(GetAllSharedAreasQuery query);
+}
