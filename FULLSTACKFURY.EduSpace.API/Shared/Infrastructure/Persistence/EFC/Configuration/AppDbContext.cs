@@ -100,6 +100,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
             });
         
+        //Payroll Context
+
+        builder.Entity<Payroll>().HasKey(p => p.Id);
+        builder.Entity()
+        
         
                 
         
