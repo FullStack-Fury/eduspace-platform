@@ -11,6 +11,7 @@ public class AuthenticationController
 {
     //TODO: Add token 
     [ApiController]
+    [Authorize]
     [Route("api/v1/[controller]")]
     [Produces(MediaTypeNames.Application.Json)]
     public class AccountController(IAccountCommandService accountCommandService, IAccountQueryService accountQueryService)
