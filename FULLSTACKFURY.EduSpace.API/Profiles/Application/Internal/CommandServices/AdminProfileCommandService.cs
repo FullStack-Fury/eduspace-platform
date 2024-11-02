@@ -8,14 +8,15 @@ using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 namespace FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.CommandServices;
 
 public class AdminProfileCommandService(IAdminProfileRepository adminProfileRepository,
-    IUnitOfWork unitOfWork, ExternalIamService externalIamService) : IAdminProfileCommandService
+    IUnitOfWork unitOfWork, IExternalIamService externalIamService) : IAdminProfileCommandService
 {
     public async Task<AdminProfile?> Handle(CreateAdministratorProfileCommand command)
     {
 
         try
         {
-            var accountId = externalIamService.CreateAccount(command.Email, command.Password, "ROLE_ADMIN");
+            var accountId = externalIamService.CreateAccount(command.Email, command.Password, "RoleAdmin");
+            Console.WriteLine("The result of the account creation is: " + accountId.Id);
             var adminProfile = new AdminProfile(command, accountId.Result);
             
             await adminProfileRepository.AddAsync(adminProfile);

@@ -1,9 +1,9 @@
-using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL.Services;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.ValueObjects;
 
 namespace FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.OutboundServices.ACL;
 
-public class ExternalIamService(IamContextFacade iamContextFacade)
+public class ExternalIamService(IIamContextFacade iamContextFacade) : IExternalIamService
 {
     public async Task<AccountId> CreateAccount(string username, string password, string role)
     {
