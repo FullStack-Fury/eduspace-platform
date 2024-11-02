@@ -33,10 +33,6 @@
 public record CreatePayrollCommand(
     int TeacherId,
     decimal SalaryAmount,
-    decimal PensionContribution,
     decimal SalaryBonus,
-    decimal OtherDeductions,
-    DateTime DatePayment,
-    string PaymentMethod,
-    string Account,
-    string Observation);
+    DateTime DatePayment)
+{};
