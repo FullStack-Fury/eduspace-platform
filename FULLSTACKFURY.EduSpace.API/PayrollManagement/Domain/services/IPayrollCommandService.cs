@@ -6,5 +6,4 @@ namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Services;
 public interface IPayrollCommandService
 {
     Task<Payroll> Handle(CreatePayrollCommand command); // Devuelve Payroll en lugar de void
-    Task Handle(UpdatePayrollCommand command);
 }
