@@ -1,4 +1,4 @@
-namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Resources;
+namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
 
 /// <summary>
 /// Represents the data required to create a new meeting.

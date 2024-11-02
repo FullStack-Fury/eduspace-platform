@@ -1,7 +1,7 @@
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Resources;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
 
-namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Transform;
+namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Transform;
 
 /// <summary>
 /// Assembler class to transform CreateMeetingResource to CreateMeetingCommand
@@ -17,16 +17,19 @@ public class CreateMeetingCommandFromResourceAssembler
     /// <returns>
     /// The resulting <see cref="CreateMeetingCommand"/> command with the values from the resource
     /// </returns>
-    public static CreateMeetingCommand ToCommandFromResource(CreateMeetingResource resource)
+    public static CreateMeetingCommand ToCommandFromResource(CreateMeetingResource resource, Guid administratorId)
     {
         return new CreateMeetingCommand(
+            administratorId,            // Se requiere un Guid para AdministratorId
             resource.Title,
             resource.Description,
             resource.StartTime,
             resource.EndTime,
             resource.Date,
-            resource.Invitees, 
-            resource.Responsible 
+            resource.Invitees,
+            resource.Responsible
         );
     }
+   
+
 }

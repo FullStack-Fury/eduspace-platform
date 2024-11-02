@@ -3,6 +3,8 @@ using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Resources;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Transform;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -57,19 +59,29 @@ public class MeetingsController(IMeetingQueryService meetingQueryService, IMeeti
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The meeting was successfully created", typeof(MeetingResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The meeting was not created")]
+    [HttpPost]
     public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingResource createMeeting)
     {
-        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(createMeeting);
+        // Obtén el AdministratorId desde los claims de usuario autenticado
+        var administratorIdClaim = User.FindFirst("AdministratorId")?.Value;
+
+        if (string.IsNullOrEmpty(administratorIdClaim) || !Guid.TryParse(administratorIdClaim, out Guid administratorId))
+        {
+            return Unauthorized("Administrator ID not found in token.");
+        }
+
+        // Crea el comando usando el ensamblador, pasando el AdministratorId obtenido
+        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(createMeeting, administratorId);
         var meeting = await meetingCommandService.Handle(createMeetingCommand);
-    
-        if (meeting is null) 
+
+        if (meeting is null)
             return BadRequest();
-        
+
         var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(meeting);
-    
-        // Cambia 'meeting.Id' por 'meeting.MeetingId'
         return CreatedAtAction(nameof(GetMeetingById), new { meetingId = meeting.MeetingId }, meetingResource);
     }
+
+
 
     /// <summary>
     /// Get all meetings
