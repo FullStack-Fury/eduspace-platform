@@ -26,7 +26,11 @@ public class PayrollCommandService : IPayrollCommandService
             new SalaryAmount(command.SalaryAmount),
             new PensionContribution(command.PensionContribution),
             new SalaryBonus(command.SalaryBonus),
-            new OtherDeductions(command.OtherDeductions)
+            new OtherDeductions(command.OtherDeductions),
+            new DatePayment(command.DatePayment),
+            new PaymentMethod(command.PaymentMethod),
+            new Account(command.Account),
+            new Observation(command.Observation)
         );
 
         await _payrollRepository.AddAsync(payroll);
@@ -43,7 +47,11 @@ public class PayrollCommandService : IPayrollCommandService
             new SalaryAmount(command.SalaryAmount),
             new PensionContribution(command.PensionContribution),
             new SalaryBonus(command.SalaryBonus),
-            new OtherDeductions(command.OtherDeductions)
+            new OtherDeductions(command.OtherDeductions),
+            new DatePayment(command.DatePayment),
+            new PaymentMethod(command.PaymentMethod),
+            new Account(command.Account),
+            new Observation(command.Observation)
         );
 
         _payrollRepository.Update(payroll);
