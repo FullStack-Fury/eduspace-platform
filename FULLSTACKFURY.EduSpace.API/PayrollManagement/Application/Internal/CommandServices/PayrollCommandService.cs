@@ -46,20 +46,4 @@ public class PayrollCommandService : IPayrollCommandService
         return payroll;
     }
 
-    /// <summary>
-    /// Handles the update of an existing payroll entry.
-    /// </summary>
-    /// <param name="command">The <see cref="UpdatePayrollCommand"/> containing updated payroll details.</param>
-    /// <exception cref="KeyNotFoundException">
-    /// Thrown when the payroll entry with the specified ID is not found.
-    /// </exception>
-    public async Task Handle(UpdatePayrollCommand command)
-    {
-        var payroll = await _repository.GetByIdAsync(command.PayrollId);
-        if (payroll == null) throw new KeyNotFoundException("Payroll not found.");
-
-        payroll.UpdatePayroll(command);
-        _repository.Update(payroll);
-        await _unitOfWork.CompleteAsync();
-    }
 }
