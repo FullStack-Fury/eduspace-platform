@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 namespace FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.REST;
 
 [ApiController]
-[Authorize]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 public class TeachersProfilesController(ITeacherProfileCommandService teacherProfileCommandService)

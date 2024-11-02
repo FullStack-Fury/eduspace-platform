@@ -51,5 +51,12 @@ public class ReservationsController(IReservationCommandService reservationComman
 
         return Ok(resources);
     }
-    
+    //
+    // [HttpGet("areas/{areaId:int}")]
+    // public async Task<IActionResult> GetAllReservationsByAreaIdMonthAndDay(int areaId, [FromQuery] int month,
+    //     [FromQuery] int day)
+    // {
+    //     var getAllReservationsByAreaIdMonthAndDayQuery = new GetAllReservationsByAreaIdAn
+    // }
+    //
 }

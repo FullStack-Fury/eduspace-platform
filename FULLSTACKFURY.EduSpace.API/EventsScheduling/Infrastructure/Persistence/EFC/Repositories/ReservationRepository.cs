@@ -12,11 +12,11 @@ public class ReservationRepository(AppDbContext context)
 {
     public async Task<IEnumerable<Reservation>> FindAllByAreaIdAsync(int areaId)
     {
-        return await Context.Set<Reservation>().Where(f => f.AreaId.Id == areaId).ToListAsync();
+        return await Context.Set<Reservation>().Where(f => f.AreaId.Identifier == areaId).ToListAsync();
     }
 
     public async Task<IEnumerable<Reservation>> FindAllByAreaIdMonthAndDayAsync(int areaId, int month, int day)
     {
-        return await Context.Set<Reservation>().Where(f => f.AreaId.Id == areaId && f.ReservationDate.Start.Month == month && f.ReservationDate.Start.Day == day).ToListAsync();
+        return await Context.Set<Reservation>().Where(f => f.AreaId.Identifier == areaId && f.ReservationDate.Start.Month == month && f.ReservationDate.Start.Day == day).ToListAsync();
     }
 }
