@@ -21,4 +21,6 @@ public class TeacherProfile : Profile
     {
         AdministratorId = command.AdministratorId;
     }
+
+    public TeacherProfile() { }
 }
