@@ -16,4 +16,6 @@ public class Account
         Password = password;
         Role = Enum.Parse<ERoles>(role);
     }
+
+    public Account() : this("", "", null) { }
 }
