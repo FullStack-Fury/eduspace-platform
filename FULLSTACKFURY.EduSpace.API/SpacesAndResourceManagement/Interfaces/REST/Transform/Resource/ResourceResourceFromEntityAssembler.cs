@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Transform;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
 
 /// <summary>
 /// Assembler for converting Resource entities to Resource resources.

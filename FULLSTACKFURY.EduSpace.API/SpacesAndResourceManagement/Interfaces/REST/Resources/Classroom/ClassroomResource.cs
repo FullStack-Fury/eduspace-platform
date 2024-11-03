@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
 
 /// <summary>
 /// Represents the data exposed by the tutorial resource. 
@@ -12,7 +12,7 @@
 /// <param name="Description">
 /// The description of the classroom.
 /// </param>
-/// <param name="Teacher">
-/// The <see cref="TeacherResource"/> teacher of the classroom.
+/// <param name="TeacherId">
+///  The unique identifier of the teacher.
 /// </param>
-public record ClassroomResource(int Id, string Name, string Description, TeacherResource Teacher); 
+public record ClassroomResource(int Id, string Name, string Description, int TeacherId); 

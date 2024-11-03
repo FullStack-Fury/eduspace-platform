@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
 
 /// <summary>
 ///  Represent a resource to create a teacher.

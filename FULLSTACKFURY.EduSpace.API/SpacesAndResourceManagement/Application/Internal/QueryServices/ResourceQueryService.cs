@@ -1,9 +1,9 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Queries;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.Internal.QueryServices;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.QueryServices;
 
 /// <summary>
 /// The resource query service

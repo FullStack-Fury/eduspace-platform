@@ -1,18 +1,15 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.OutboundServices.ACL;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.Internal.CommandServices;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.CommandServices;
 
 /// <summary>
 /// Represents a classroom command service for Classroom entities
 /// </summary>
-/// <param name="teacherRepository">
-/// The repository for teacher entities
-/// </param>
 /// <param name="classroomRepository">
 /// The repository for classroom entities
 /// </param>
@@ -30,15 +27,11 @@ public class ClassroomCommandService(
     public async Task<Classroom?> Handle(CreateClassroomCommand command)
     {
         if(profileService.VerifyProfile(command.TeacherId) == false) throw new Exception("Teacher not found");
-        
-        var teacher = await teacherRepository.FindByIdAsync(command.TeacherId);
-        if (teacher is null) throw new Exception("Teacher not found");
         if (await classroomRepository.ExistsByNameAsync(command.Name))
             throw new Exception("Classroom with the same title already exists");
         var classroom = new Classroom(command);
         await classroomRepository.AddAsync(classroom);
         await unitOfWork.CompleteAsync();
-        classroom.Teacher = teacher;
         return classroom;
     }
 }

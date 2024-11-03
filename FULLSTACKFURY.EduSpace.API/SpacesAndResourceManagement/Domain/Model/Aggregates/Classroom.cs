@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.ValueObjects;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.ValueObjects;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
 /// <summary>
 /// Classroom aggregate root entity
@@ -19,8 +19,6 @@ public partial class Classroom
     /// <summary>
     /// Default constructor for the classroom entity
     /// </summary>
-    public Classroom() { }
-
     /// <param name="name">
     /// The name of the classroom
     /// </param>
@@ -30,14 +28,14 @@ public partial class Classroom
     /// <param name="teacherId">
     /// The teacher id for the classroom
     /// </param>
-    public Classroom(string name, string description, int teacherId) : this()
+    public Classroom(string name, string description, int teacherId)
     {
         Name = name;
         Description = description;
         TeacherId = new TeacherId(teacherId);
     }
     
-    public Classroom(CreateClassroomCommand command) : this()
+    public Classroom(CreateClassroomCommand command)
     {
         Name = command.Name;
         Description = command.Description;

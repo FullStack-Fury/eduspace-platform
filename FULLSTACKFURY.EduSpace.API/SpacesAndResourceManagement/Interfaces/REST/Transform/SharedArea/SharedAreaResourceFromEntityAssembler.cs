@@ -1,6 +1,6 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources.SharedArea;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.SharedArea;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Transform.SharedArea;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.SharedArea;
 
 /// <summary>
 ///  Assembler class to transform CreateSharedAreaResource to CreateSharedAreaCommand

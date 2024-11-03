@@ -1,4 +1,4 @@
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.OutboundServices.ACL;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL;
 
 public interface IExternalProfileService
 {

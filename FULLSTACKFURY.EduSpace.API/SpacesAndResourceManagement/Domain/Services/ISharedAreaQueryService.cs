@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Queries;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
 /// <summary>
 /// Represents the shared area query service in the EduSpace API.

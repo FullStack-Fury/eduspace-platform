@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
 /// <summary>
 /// Command to create a resource.

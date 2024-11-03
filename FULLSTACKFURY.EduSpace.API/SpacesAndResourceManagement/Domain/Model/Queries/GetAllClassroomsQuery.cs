@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Queries;
 
 /// <summary>
 /// Represents a query to get all classrooms in the EduSpace.

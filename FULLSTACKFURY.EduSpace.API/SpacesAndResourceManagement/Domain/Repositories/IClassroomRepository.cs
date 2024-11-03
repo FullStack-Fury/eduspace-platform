@@ -1,7 +1,7 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repositories;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
 
 /// <summary>
 ///  Represents the classroom repository in the EduSpace Platform

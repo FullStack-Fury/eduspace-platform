@@ -1,6 +1,6 @@
-﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
 /// <summary>
 /// Represents a shared area in the application.

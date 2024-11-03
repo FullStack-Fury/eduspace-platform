@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources.SharedArea;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.SharedArea;
 
 /// <summary>
 ///  Represents the data required to create a new shared area.

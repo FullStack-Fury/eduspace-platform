@@ -1,13 +1,13 @@
 ﻿using System.Net.Mime;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources.SharedArea;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Transform.SharedArea;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Queries;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.SharedArea;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.SharedArea;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]

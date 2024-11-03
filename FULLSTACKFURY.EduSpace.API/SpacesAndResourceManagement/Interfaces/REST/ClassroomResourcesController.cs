@@ -1,12 +1,12 @@
 ﻿using System.Net.Mime;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Queries;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Resources;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST.Transform;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Queries;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Interfaces.REST;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST;
 
 /// <summary>
 /// Get all resources by classroom id

@@ -1,10 +1,10 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.Internal.CommandServices;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.CommandServices;
 
 /// <summary>
 /// Represents a shared area command service for Shared Area entities

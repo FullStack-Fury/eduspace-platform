@@ -2,7 +2,7 @@
 using DateTimeOffset = System.DateTimeOffset;
 using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
+namespace FULLSTACKFURY.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
 public partial class Classroom : IEntityWithCreatedUpdatedDate
 {
