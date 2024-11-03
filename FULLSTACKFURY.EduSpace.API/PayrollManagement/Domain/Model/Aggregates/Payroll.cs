@@ -10,6 +10,8 @@ namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 /// <remarks>
 /// This class is used to represent payroll details for a teacher in the application.
 /// </remarks>
+///
+
 public partial class Payroll
 {
     public int Id { get; private set; }
@@ -25,6 +27,8 @@ public partial class Payroll
     /// <param name="command">
     /// The <see cref="CreatePayrollCommand"/> containing payroll details to initialize this instance.
     /// </param>
+   
+   public Payroll() { }
     public Payroll(CreatePayrollCommand command)
     {
         TeacherId = command.TeacherId;

@@ -1,4 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Interface.REST.Resources;
 
 namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Interface.REST.Transform;
@@ -9,26 +10,25 @@ namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Interface.REST.Transform;
 public static class PayrollResourceFromEntityAssembler
 {
     /// <summary>
-    /// Transform Payroll entity to PayrollResource
+    /// Transforma una entidad Payroll en un PayrollResource.
     /// </summary>
     /// <param name="entity">
-    /// The <see cref="Payroll"/> entity to transform
+    /// La entidad <see cref="Payroll"/> a transformar.
     /// </param>
     /// <returns>
-    /// The resulting <see cref="PayrollResource"/> with the values from the entity
+    /// El <see cref="PayrollResource"/> resultante con los valores de la entidad.
     /// </returns>
+    ///
+ 
     public static PayrollResource ToResourceFromEntity(Payroll entity)
     {
         return new PayrollResource(
-            entity.Id,
             entity.TeacherId,
-            entity.SalaryAmount.Value,
-            entity.PensionContribution.Value,
-            entity.SalaryBonus.Value,
-            entity.OtherDeductions.Value,
-            entity.DatePayment.Value,
-            entity.PaymentMethod.Value,
-            entity.Observation?.Value,  // Sin Account
-            entity.SalaryNet.Value);
+            entity.SalaryAmount.Value, // Valor directo de SalaryAmount
+            entity.PayrollAdjustment.PensionContribution, // Valor directo de PensionContribution
+            entity.PayrollAdjustment.SalaryBonus, // Valor directo de SalaryBonus desde PayrollAdjustment
+            entity.DatePayment.Value // Valor directo de DatePayment
+        );
     }
+
 }
