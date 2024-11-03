@@ -100,18 +100,34 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
             });
         
-        //Payroll Context
-
+        // Payroll Context
         builder.Entity<Payroll>().HasKey(p => p.Id);
-        builder.Entity()
-        
-        
-                
-        
-        
-        
-        
-        
+        builder.Entity<Payroll>().Property(p => p.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Payroll>().Property(p => p.TeacherId).IsRequired();
+        builder.Entity<Payroll>().Property(p => p.SalaryNet).IsRequired();
+
+        // Configuración de SalaryAmount como Owned Type
+        builder.Entity<Payroll>().OwnsOne(p => p.SalaryAmount, sa =>
+            {
+                sa.WithOwner().HasForeignKey("Id");
+                sa.Property(p => p.Value).HasColumnName("SalaryAmount").IsRequired();
+            });
+
+        // Configuración de PayrollAdjustment como Owned Type
+        builder.Entity<Payroll>().OwnsOne(p => p.PayrollAdjustment, pa =>
+            {
+                pa.WithOwner().HasForeignKey("Id");
+                pa.Property(p => p.PensionContribution).HasColumnName("PensionContribution").IsRequired();
+                pa.Property(p => p.SalaryBonus).HasColumnName("SalaryBonus").IsRequired();
+            });
+
+        // Configuración de DatePayment como Owned Type sin clave
+        builder.Entity<Payroll>().OwnsOne(p => p.DatePayment, dp =>
+            {
+                dp.WithOwner().HasForeignKey("Id");
+                dp.Property(d => d.Value).HasColumnName("DatePayment").IsRequired();
+            });
+
         
         
         
