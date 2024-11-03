@@ -9,6 +9,6 @@ public static class CreateAdminProfileCommandFromResourceAssembler
     {
         return new CreateAdministratorProfileCommand(resource.FirstName, resource.LastName
             , resource.Email, resource.Dni, resource.Address, resource.Phone
-            , resource.Username, resource.Password, resource.Role);
+            , resource.Username, resource.Password);
     }
 }

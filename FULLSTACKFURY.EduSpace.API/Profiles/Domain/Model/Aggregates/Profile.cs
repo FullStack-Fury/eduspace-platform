@@ -23,6 +23,12 @@ public class Profile : IEntityWithCreatedUpdatedDate
         this.ProfilePrivateInformation = new ProfilePrivateInformation(email, dni, address, phone);
         AccountId = accountId;
     }
+
+    public Profile()
+    {
+        ProfileName = new ProfileName();
+        ProfilePrivateInformation = new ProfilePrivateInformation();
+    }
     
     public string ProfileFullName => ProfileName.FullName;
     public string ProfileEmail => ProfilePrivateInformation.ObtainEmail;

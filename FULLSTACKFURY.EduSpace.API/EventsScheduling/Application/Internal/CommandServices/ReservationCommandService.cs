@@ -8,12 +8,12 @@ using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.CommandServices;
 
 public class ReservationCommandService(IReservationRepository reservationRepository
-    , IUnitOfWork unitOfWork, ExternalProfileServices externalProfileServices) : IReservationCommandService
+    , IUnitOfWork unitOfWork, IExternalProfileService externalProfileService) : IReservationCommandService
 
 {
     public async Task<Reservation?> Handle(CreateReservationCommand command)
     {
-        if (!externalProfileServices.ValidateTeacherIdExistence(command.TeacherId))
+        if (!externalProfileService.ValidateTeacherIdExistence(command.TeacherId))
         {
             throw new Exception("Teacher does not exist");
         }
