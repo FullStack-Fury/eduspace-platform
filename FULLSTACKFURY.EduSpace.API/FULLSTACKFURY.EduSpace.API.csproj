@@ -25,8 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="spaces-and-resource-management\Application\OutboundServices\" />
-      <Folder Include="spaces-and-resource-management\Domain\Model\Entities\" />
+      <Folder Include="SpacesAndResourceManagement\Application\OutboundServices\" />
+      <Folder Include="SpacesAndResourceManagement\Domain\Model\Entities\" />
     </ItemGroup>
 
 </Project>
