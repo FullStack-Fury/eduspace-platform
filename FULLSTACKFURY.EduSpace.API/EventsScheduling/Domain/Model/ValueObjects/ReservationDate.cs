@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices.JavaScript;
+using Google.Protobuf.WellKnownTypes;
 
 namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects
 {
@@ -20,6 +21,12 @@ namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects
             
             Start = start;
             End = end;
+        }
+        
+        public ReservationDate()
+        {
+            Start = DateTime.MinValue;
+            End = DateTime.MinValue;
         }
     }
 }
