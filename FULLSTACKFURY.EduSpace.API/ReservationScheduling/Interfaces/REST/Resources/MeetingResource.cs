@@ -1,12 +1,10 @@
-namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Resources;
+namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
 
 public record MeetingResource(
-    Guid MeetingId,
+    int MeetingId,
     string Title,
     string Description,
-    DateTime StartTime,
-    DateTime EndTime,
-    DateTime Date,
-    List<TeachersResource> Invitees,
-    List<AdministratorResource> Responsible
+    DateTime Start,
+    DateTime End,
+    DateTime Date
 );

@@ -1,8 +1,6 @@
 using System.Net.Mime;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Resources;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC.Transform;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
@@ -13,94 +11,57 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Available Meeting Endpoints")]
-public class MeetingsController(IMeetingQueryService meetingQueryService, IMeetingCommandService meetingCommandService) : ControllerBase
+public class MeetingsController : ControllerBase
 {
-    /// <summary>
-    /// Get a meeting by its ID
-    /// </summary>
-    /// <param name="meetingId">
-    /// The meeting id to get
-    /// </param>
-    /// <returns>
-    /// The <see cref="MeetingResource"/> meeting if found, otherwise returns <see cref="NotFoundResult"/>
-    /// </returns>
-    [HttpGet("{meetingId:int}")]
-    [SwaggerOperation(
-        Summary = "Get a meeting by its ID",
-        Description = "Get a meeting by its ID",
-        OperationId = "GetMeetingById"
-    )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The meeting was successfully retrieved", typeof(MeetingResource))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "The meeting was not found")]
-    public async Task<IActionResult> GetMeetingById(Guid meetingId)
+    private readonly IMeetingCommandService meetingCommandService;
+    private readonly IMeetingQueryService meetingQueryService;
+
+    public MeetingsController(IMeetingCommandService meetingCommandService, IMeetingQueryService meetingQueryService)
     {
-        var getMeetingByIdQuery = new GetMeetingByIdQuery(meetingId);
-        var meeting = await meetingQueryService.Handle(getMeetingByIdQuery);
-        if (meeting is null) return NotFound();
-        var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(meeting);
-        return Ok(meetingResource);
+        this.meetingCommandService = meetingCommandService;
+        this.meetingQueryService = meetingQueryService;
     }
-
-    /// <summary>
-    /// Create a new meeting
-    /// </summary>
-    /// <param name="createMeeting">
-    /// The <see cref="CreateMeetingResource"/> to create the meeting from
-    /// </param>
-    /// <returns>
-    /// The <see cref="MeetingResource"/> meeting if created, otherwise returns <see cref="BadRequestResult"/>
-    /// </returns>
-    [HttpPost]
-    [SwaggerOperation(
-        Summary = "Create a new meeting",
-        Description = "Create a new meeting",
-        OperationId = "CreateMeeting"
-    )]
-    [SwaggerResponse(StatusCodes.Status201Created, "The meeting was successfully created", typeof(MeetingResource))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "The meeting was not created")]
-    [HttpPost]
-    public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingResource createMeeting)
-    {
-        // Obtén el AdministratorId desde los claims de usuario autenticado
-        var administratorIdClaim = User.FindFirst("AdministratorId")?.Value;
-
-        if (string.IsNullOrEmpty(administratorIdClaim) || !Guid.TryParse(administratorIdClaim, out Guid administratorId))
-        {
-            return Unauthorized("Administrator ID not found in token.");
-        }
-
-        // Crea el comando usando el ensamblador, pasando el AdministratorId obtenido
-        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(createMeeting, administratorId);
-        var meeting = await meetingCommandService.Handle(createMeetingCommand);
-
-        if (meeting is null)
-            return BadRequest();
-
-        var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(meeting);
-        return CreatedAtAction(nameof(GetMeetingById), new { meetingId = meeting.MeetingId }, meetingResource);
-    }
-
-
-
-    /// <summary>
-    /// Get all meetings
-    /// </summary>
-    /// <returns>
-    /// The list of <see cref="MeetingResource"/> meetings
-    /// </returns>
+    
     [HttpGet]
     [SwaggerOperation(
-        Summary = "Get all meetings",
-        Description = "Get all meetings",
+        Summary = "Gets all meetings",
+        Description = "Retrieves a list of all meetings",
         OperationId = "GetAllMeetings"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The meetings were successfully retrieved", typeof(IEnumerable<MeetingResource>))]
     public async Task<IActionResult> GetAllMeetings()
     {
         var getAllMeetingsQuery = new GetAllMeetingsQuery();
         var meetings = await meetingQueryService.Handle(getAllMeetingsQuery);
-        var meetingResources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(meetingResources);
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+        return Ok(resources);
     }
+
+    [HttpGet("admin/{adminId:int}")]
+    [SwaggerOperation(
+        Summary = "Gets meetings by admin ID",
+        Description = "Retrieves all meetings created by a specific admin",
+        OperationId = "GetAllMeetingsByAdminId"
+    )]
+    public async Task<IActionResult> GetAllMeetingsByAdminId([FromRoute] int adminId)
+    {
+        var getAllMeetingByAdminIdQuery = new GetAllMeetingByAdminIdQuery(adminId);
+        var meetings = await meetingQueryService.Handle(getAllMeetingByAdminIdQuery);
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+        return Ok(resources);
+    }
+
+    [HttpGet("teacher/{teacherId:int}")]
+    [SwaggerOperation(
+        Summary = "Gets meetings by teacher ID",
+        Description = "Retrieves all meetings assigned to a specific teacher",
+        OperationId = "GetAllMeetingsByTeacherId"
+    )]
+    public async Task<IActionResult> GetAllMeetingsByTeacherId([FromRoute] int teacherId)
+    {
+        var getAllMeetingByTeacherIdQuery = new GetAllMeetingByTeacherIdQuery(teacherId);
+        var meetings = await meetingQueryService.Handle(getAllMeetingByTeacherIdQuery);
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+        return Ok(resources);
+    }
+    
 }

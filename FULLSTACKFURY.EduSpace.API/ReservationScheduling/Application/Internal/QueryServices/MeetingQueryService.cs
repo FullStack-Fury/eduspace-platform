@@ -5,28 +5,25 @@ using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.QueryServices;
 
-public class MeetingQueryService(IMeetingRepository meetingRepository) : IMeetingQueryService
+public class MeetingQueryService (IMeetingRepository meetingRepository) : IMeetingQueryService
 {
-    /// <inheritdoc />
-    public async Task<Meeting?> Handle(GetMeetingByIdQuery query)
-    {
-        return await meetingRepository.GetByIdAsync(query.MeetingId);
-    }
-
     public async Task<IEnumerable<Meeting>> Handle(GetAllMeetingsQuery query)
     {
-        return await meetingRepository.GetAllAsync();
+        return await meetingRepository.ListAsync();
     }
 
-    /// <inheritdoc />
-    public async Task<IEnumerable<Meeting>> Handle(GetMeetingsByTeacherIdQuery query)
+    public async Task<IEnumerable<Meeting>> Handle(GetMeetingByIdQuery query)
     {
-        return await meetingRepository.FindByTeacherIdAsync(query.TeacherId);
+        return await meetingRepository.ListAsync();
     }
 
-    /// <inheritdoc />
-    public async Task<IEnumerable<Meeting>> Handle(GetMeetingsByAdministratorIdQuery query)
+    public Task<IEnumerable<Meeting>> Handle(GetAllMeetingByAdminIdQuery query)
     {
-        return await meetingRepository.FindByAdministratorIdAsync(query.AdministratorId);
+        return meetingRepository.FindAllByAdminIdAsync(query.AdminId);
+    }
+
+    public Task<IEnumerable<Meeting>> Handle(GetAllMeetingByTeacherIdQuery query)
+    {
+        return meetingRepository.FindAllByTeacherIdAsync(query.TeacherId);
     }
 }

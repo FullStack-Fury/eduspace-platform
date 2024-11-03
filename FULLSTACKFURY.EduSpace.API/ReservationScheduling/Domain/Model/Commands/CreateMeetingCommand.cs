@@ -24,4 +24,4 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands
 /// <param name="Responsible">
 ///   The list of IDs of administrators responsible for the meeting.
 /// </param>
-public record CreateMeetingCommand(Guid AdministratorId, string Title, string Description, DateTime StartTime, DateTime EndTime, DateTime Date, List<Guid> Invitees, List<Guid> Responsible);
+public record CreateMeetingCommand(string Title, string Description, DateTime Start, DateTime End, DateTime Date, int TeacherId, int AdminId);

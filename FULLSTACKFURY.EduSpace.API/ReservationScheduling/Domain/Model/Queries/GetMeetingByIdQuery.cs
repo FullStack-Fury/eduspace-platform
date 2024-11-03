@@ -6,4 +6,4 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Queries;
 /// <param name="MeetingId">
 /// The id of the meeting to get.
 /// </param>
-public record GetMeetingByIdQuery(Guid MeetingId);
+public record GetMeetingByIdQuery(int MeetingId);
