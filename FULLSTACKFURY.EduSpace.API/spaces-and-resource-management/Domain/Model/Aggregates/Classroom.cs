@@ -1,5 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Entities;
+using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.ValueObjects;
 
 namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
 
@@ -14,8 +14,7 @@ public partial class Classroom
     public int Id { get; }
     public string Name { get; private set; }
     public string Description { get; private set; }
-    public Teacher Teacher { get; internal set; }
-    public int TeacherId { get; private set; }
+    public TeacherId TeacherId { get; private set; }
     
     /// <summary>
     /// Default constructor for the classroom entity
@@ -35,13 +34,13 @@ public partial class Classroom
     {
         Name = name;
         Description = description;
-        TeacherId = teacherId;
+        TeacherId = new TeacherId(teacherId);
     }
     
     public Classroom(CreateClassroomCommand command) : this()
     {
         Name = command.Name;
         Description = command.Description;
-        TeacherId = command.TeacherId;
+        TeacherId = new TeacherId(command.TeacherId);
     }
 }

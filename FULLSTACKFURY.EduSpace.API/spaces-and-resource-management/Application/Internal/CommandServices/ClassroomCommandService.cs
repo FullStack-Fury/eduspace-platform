@@ -1,4 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.OutboundServices.ACL;
 using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Model.Commands;
 using FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Domain.Repositories;
@@ -19,14 +20,17 @@ namespace FULLSTACKFURY.EduSpace.API.spaces_and_resource_management.Application.
 /// The unit of work for the repository
 /// </param>
 public class ClassroomCommandService(
-    ITeacherRepository teacherRepository,
+    
     IClassroomRepository classroomRepository,
+    IExternalProfileService profileService,
     IUnitOfWork unitOfWork) : IClassroomCommandService
 {
     
     /// <inheritdoc />
     public async Task<Classroom?> Handle(CreateClassroomCommand command)
     {
+        if(profileService.VerifyProfile(command.TeacherId) == false) throw new Exception("Teacher not found");
+        
         var teacher = await teacherRepository.FindByIdAsync(command.TeacherId);
         if (teacher is null) throw new Exception("Teacher not found");
         if (await classroomRepository.ExistsByNameAsync(command.Name))

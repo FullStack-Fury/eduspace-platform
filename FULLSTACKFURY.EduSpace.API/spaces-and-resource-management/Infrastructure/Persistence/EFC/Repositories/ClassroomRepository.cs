@@ -27,6 +27,7 @@ public class ClassroomRepository(AppDbContext context) : BaseRepository<Classroo
             .FirstOrDefaultAsync(classroom => classroom.Id == id); 
     }
     
+    
     // InheritedDoc
     public new async Task<IEnumerable<Classroom>> ListAsync()
     {

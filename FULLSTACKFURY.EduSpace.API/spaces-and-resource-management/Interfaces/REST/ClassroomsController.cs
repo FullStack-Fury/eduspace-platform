@@ -56,7 +56,7 @@ public class ClassroomsController(IClassroomQueryService classroomQueryService, 
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The classroom was successfully created", typeof(ClassroomResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The classroom was not created")]
-    
+        
     public async Task<IActionResult> CreateClassroom([FromBody] CreateClassroomResource resource)
     {
         var createClassroomCommand = CreateClassroomCommandFromResourceAssembler.ToCommandFromResource(resource);
