@@ -22,6 +22,22 @@ public class MeetingsController : ControllerBase
         this.meetingQueryService = meetingQueryService;
     }
     
+    [HttpPost]
+    [SwaggerOperation(
+        Summary = "Creates a meeting",
+        Description = "Creates a new meeting with specified details",
+        OperationId = "CreateMeeting"
+    )]
+    [SwaggerResponse(201, "The meeting was created", typeof(MeetingResource))]
+    public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingResource resource)
+    {
+        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var meeting = await meetingCommandService.Handle(createMeetingCommand);
+        if (meeting is null) return BadRequest("Failed to create meeting.");
+        var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(meeting);
+        return Ok(meetingResource);
+    }
+    
     [HttpGet]
     [SwaggerOperation(
         Summary = "Gets all meetings",
@@ -32,7 +48,7 @@ public class MeetingsController : ControllerBase
     {
         var getAllMeetingsQuery = new GetAllMeetingsQuery();
         var meetings = await meetingQueryService.Handle(getAllMeetingsQuery);
-        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
 
@@ -46,7 +62,8 @@ public class MeetingsController : ControllerBase
     {
         var getAllMeetingByAdminIdQuery = new GetAllMeetingByAdminIdQuery(adminId);
         var meetings = await meetingQueryService.Handle(getAllMeetingByAdminIdQuery);
-        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+   
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
 
@@ -60,8 +77,10 @@ public class MeetingsController : ControllerBase
     {
         var getAllMeetingByTeacherIdQuery = new GetAllMeetingByTeacherIdQuery(teacherId);
         var meetings = await meetingQueryService.Handle(getAllMeetingByTeacherIdQuery);
-        var resources = meetings.Select(MeetingResourceFromEntityAssembler.FromEntity);
+        var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
+    
+    
     
 }
