@@ -1,4 +1,4 @@
-namespace FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL;
+namespace FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
 
 public interface IIamContextFacade
 {
