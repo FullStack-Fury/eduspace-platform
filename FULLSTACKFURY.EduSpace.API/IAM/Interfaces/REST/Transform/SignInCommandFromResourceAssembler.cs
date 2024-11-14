@@ -1,7 +1,7 @@
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.IAM.Interface.Resources;
+using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.REST.Resources;
 
-namespace FULLSTACKFURY.EduSpace.API.IAM.Interface.Transform;
+namespace FULLSTACKFURY.EduSpace.API.IAM.Interfaces.REST.Transform;
 
 public static class SignInCommandFromResourceAssembler
 {
