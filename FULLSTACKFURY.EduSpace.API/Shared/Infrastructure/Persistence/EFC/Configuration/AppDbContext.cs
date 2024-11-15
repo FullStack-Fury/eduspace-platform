@@ -1,6 +1,6 @@
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
@@ -130,7 +130,15 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
         
         
-        
+        // Configuración para la entidad Report
+        builder.Entity<Report>().HasKey(r => r.Id);
+        builder.Entity<Report>().Property(r => r.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Report>().Property(r => r.ResourceId).IsRequired();
+        builder.Entity<Report>().Property(r => r.KindOfReport).IsRequired();
+        builder.Entity<Report>().Property(r => r.Description).IsRequired();
+        builder.Entity<Report>().Property(r => r.CreatedAt).IsRequired();
+        builder.Entity<Report>().Property(r => r.Status).IsRequired(); 
+
         base.OnModelCreating(builder);
         
         //#TODO Add configurations here
