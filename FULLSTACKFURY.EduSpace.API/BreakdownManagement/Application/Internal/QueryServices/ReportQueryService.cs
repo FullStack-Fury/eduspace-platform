@@ -1,26 +1,48 @@
-﻿using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
+﻿
 using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Services;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
 
-namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.QueryServices;
-
-public class ReportQueryService : IReportQueryService
+namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.QueryServices
 {
-    private readonly IReportRepository _reportRepository;
-
-    public ReportQueryService(IReportRepository reportRepository)
+    /// <summary>
+    /// Service to handle report queries.
+    /// </summary>
+    public class ReportQueryService : IReportQueryService
     {
-        _reportRepository = reportRepository;
-    }
+        private readonly IReportRepository _reportRepository;
 
-    public Task<IEnumerable<Report>> Handle(GetAllReportsQuery query)
-    {
-        return _reportRepository.ListAsync();
-    }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReportQueryService"/> class.
+        /// </summary>
+        /// <param name="reportRepository">The report repository for accessing report data.</param>
+        public ReportQueryService(IReportRepository reportRepository)
+        {
+            _reportRepository = reportRepository;
+        }
 
-    public Task<IEnumerable<Report>> Handle(GetAllReportsByResourceIdQuery query)
-    {
-        return _reportRepository.FindAllByResourceIdAsync(query.ResourceId);
+        /// <inheritdoc />
+        public async Task<IEnumerable<Report>> HandleAllReportsQuery(GetAllReportsQuery query)
+        {
+            // Returns all reports
+            return await _reportRepository.ListAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task<Report?> HandleReportByIdQuery(GetReportByIdQuery query)
+        {
+            // Retrieve a report by its ID
+            return await _reportRepository.FindByIdAsync(query.ReportId);
+        }
+
+        /// <inheritdoc />
+        public async Task<IEnumerable<Report>> HandleReportsByResourceIdQuery(GetReportByResourceIdQuery query)
+        {
+            // Retrieve all reports by resource ID
+            return await _reportRepository.FindAllByResourceIdAsync(query.ResourceId);
+        }
     }
 }
