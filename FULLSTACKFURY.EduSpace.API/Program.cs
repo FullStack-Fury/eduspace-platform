@@ -1,3 +1,8 @@
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.CommandServices;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.QueryServices;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.CommandServices;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.QueryServices;
@@ -33,10 +38,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Environment variables//
 
-string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
-string user = Environment.GetEnvironmentVariable("DB_USER") ?? "";
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
-string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "";
+string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "hostlocal";
+string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
+string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "pruebaf";
 
 string connectionString = $"server={server};user={user};password={password};database={database}";
 
@@ -125,7 +130,10 @@ builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 builder.Services.AddScoped<IPayrollQueryService, PayrollQueryService>();
 
 
-
+// Report BC
+builder.Services.AddScoped<IReportCommandService, ReportCommandService>();  // Service for handling report commands
+builder.Services.AddScoped<IReportQueryService, ReportQueryService>();  // Service for handling report queries
+builder.Services.AddScoped<IReportRepository, ReportRepository>();  // Repository for interacting with the Report database
 
 
 

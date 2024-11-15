@@ -1,32 +1,33 @@
 ﻿using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.ValueObjects;
 
-namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates;
-
-public record Report
+namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates
 {
-    public int Id { get; init; }
-    public string KindOfReport { get; init; }
-    public string Description { get; init; }
-    public ResourceId ResourceId { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public ReportStatus Status { get; init; }
-
-    public Report(string kindOfReport, string description, int resourceId, DateTime createdAt, ReportStatus status = null)
+    public class Report
     {
-        KindOfReport = kindOfReport;
-        Description = description;
-        ResourceId = new ResourceId(resourceId);
-        CreatedAt = createdAt;
-        Status = status ?? ReportStatus.EnProceso; // Default status
+        public int Id { get; private set; }
+        public int ResourceId { get; private set; }
+        public string KindOfReport { get; private set; }
+        public string Description { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+
+        // Usamos un simple string para el estado
+        public string Status { get; private set; }
+
+        public Report() { }
+
+        public Report(CreateReportCommand command)
+        {
+            ResourceId = command.ResourceId;
+            KindOfReport = command.KindOfReport;
+            Description = command.Description;
+            CreatedAt = command.CreatedAt;
+            Status = command.Status ?? "Pendiente";  // Estado por defecto si es nulo
+        }
+
+        public void UpdateStatus(string newStatus)
+        {
+            Status = newStatus;
+        }
     }
 
-    public Report(CreateReportCommand command)
-    {
-        KindOfReport = command.KindOfReport;
-        Description = command.Description;
-        ResourceId = new ResourceId(command.ResourceId);
-        CreatedAt = command.CreatedAt;
-        Status = ReportStatus.EnProceso; // Default status
-    }
 }
