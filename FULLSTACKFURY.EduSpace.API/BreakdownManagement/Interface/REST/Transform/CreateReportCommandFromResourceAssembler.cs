@@ -5,13 +5,15 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Interface.REST.Transfor
 {
     public static class CreateReportCommandFromResourceAssembler
     {
-        public static CreateReportCommand ToCommandFromResource(CreateReportResource resource)
+        public static CreateReportCommand ToCommand(CreateReportResource resource)
         {
+           
             return new CreateReportCommand(
+                resource.ResourceId,
                 resource.KindOfReport,
                 resource.Description,
-                resource.ResourceId,
-                resource.CreatedAt 
+                resource.Status,  // Ahora pasamos el string directamente
+                resource.CreatedAt
             );
         }
     }
