@@ -1,15 +1,23 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.ValueObjects;
-
-public record ReportStatus
+﻿namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.ValueObjects
 {
-    public string Value { get; init; }
-
-    private ReportStatus(string value)
+    public record Status
     {
-        Value = value;
-    }
+        private static readonly string DefaultStatus = "Pendiente";
+        private static readonly string[] ValidStatuses = { "Pendiente", "Proceso", "Terminado" };
 
-    public static ReportStatus EnProceso => new ReportStatus("en proceso");
-    public static ReportStatus Completado => new ReportStatus("completado");
-    public static ReportStatus Cancelado => new ReportStatus("cancelado");
+        public string Value { get; init; }
+
+        // Acepta string? para permitir null
+        public Status(string? value)
+        {
+            // Si el valor es nulo o vacío, asigna el estado predeterminado "Pendiente"
+            Value = string.IsNullOrWhiteSpace(value) ? DefaultStatus : value!;  // 'value!' garantiza que no es nulo después de la comprobación
+
+            // Validar si el valor está en la lista de estados válidos
+            if (Array.IndexOf(ValidStatuses, Value) == -1)
+            {
+                throw new ArgumentException($"El estado '{value}' no es válido. Los estados válidos son: {string.Join(", ", ValidStatuses)}.");
+            }
+        }
+    }
 }
