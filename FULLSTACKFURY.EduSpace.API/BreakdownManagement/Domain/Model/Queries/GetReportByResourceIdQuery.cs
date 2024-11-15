@@ -1,3 +1,3 @@
 ﻿namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Queries;
 
-public record GetAllReportsQuery();
+public record GetReportByResourceIdQuery(int ResourceId);
