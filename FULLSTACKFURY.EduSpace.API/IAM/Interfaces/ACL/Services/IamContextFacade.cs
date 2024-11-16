@@ -1,8 +1,9 @@
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Commands;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
 
-namespace FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL.Services;
+namespace FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL.Services;
 
 public class IamContextFacade(IAccountCommandService accountCommandService,
     IAccountQueryService accountQueryService) : IIamContextFacade
