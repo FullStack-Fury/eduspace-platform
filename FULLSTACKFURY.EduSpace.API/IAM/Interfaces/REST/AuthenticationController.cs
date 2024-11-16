@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Pipeline.Middleware.Attributes;
 using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.REST.Resources;
 using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace FULLSTACKFURY.EduSpace.API.IAM.Interfaces.REST;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
@@ -28,6 +30,7 @@ public class AuthenticationController(IAccountCommandService accountCommandServi
             return Ok(new { message = "User created succesfully" });
         }
 
+        [AllowAnonymous]
         [HttpPost("sign-in")]
         [SwaggerOperation(
             Summary = "Sign in",

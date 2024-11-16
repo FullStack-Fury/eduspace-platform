@@ -13,6 +13,7 @@ using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
 using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL.Services;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Pipeline.Middleware.Components;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Configuration;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.CommandServices;
@@ -46,6 +47,20 @@ Console.WriteLine(connectionString);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policyBuilder => policyBuilder
+            .WithOrigins("http://localhost:5173") // Your frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
     c =>
@@ -101,6 +116,9 @@ if (connectionString == null)
     throw new InvalidOperationException("Connection string not found.");
 }
 
+
+
+
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     if (builder.Environment.IsDevelopment())
@@ -153,7 +171,9 @@ builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IHashingService, HashingService>();
 
-
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 
 
@@ -174,9 +194,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
+// app.UseRouting();
+
+// Use the CORS policy
+app.UseCors("AllowFrontend");
+
+
+
 
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 
