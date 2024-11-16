@@ -4,6 +4,7 @@ using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.X509.Qualified;
@@ -101,14 +102,32 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             });
         
         
-                
+        //Events Scheduling Context        
+
+        builder.Entity<Meeting>().HasKey(m => m.MeetingId);
+        builder.Entity<Meeting>().Property(m => m.MeetingId).IsRequired().ValueGeneratedOnAdd();
         
-        
-        
-        
-        
-        
-        
+        builder.Entity<Meeting>().Property(m => m.Title).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.Description).IsRequired();
+        builder.Entity<Meeting>().OwnsOne(m => m.MeetingDate,
+            md =>
+            {
+                md.WithOwner().HasForeignKey("Id");
+                md.Property(m => m.Start).HasColumnName("Start");
+                md.Property(m => m.End).HasColumnName("End");
+            });
+        builder.Entity<Meeting>().OwnsOne(m => m.TeacherId,
+            ti =>
+            {
+                ti.WithOwner().HasForeignKey("Id");
+                ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
+            });
+        builder.Entity<Meeting>().OwnsOne(m => m.AdminId,
+            ai =>
+            {
+                ai.WithOwner().HasForeignKey("Id");
+                ai.Property(r => r.AdminIdentifier).HasColumnName("TeacherId");
+            });
         
         base.OnModelCreating(builder);
         
