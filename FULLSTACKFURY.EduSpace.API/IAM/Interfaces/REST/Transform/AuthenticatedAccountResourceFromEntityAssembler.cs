@@ -7,6 +7,6 @@ public static class AuthenticatedAccountResourceFromEntityAssembler
 {
     public static AuthenticatedAccountResource ToResourceFromEntity(Account entity, string token)
     {
-        return new AuthenticatedAccountResource(entity.Id, entity.Username, token);
+        return new AuthenticatedAccountResource(entity.Id, entity.Username, entity.GetRole(), token);
     }
 }
