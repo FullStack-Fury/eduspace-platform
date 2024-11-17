@@ -39,4 +39,52 @@ public class Meeting
         AdministratorId = new AdministratorId(command.AdministratorId);
         ClassroomId = new ClassroomId(command.ClassroomId);
     }
+
+    public Meeting(UpdateMeetingCommand command)
+    {
+        MeetingId = command.MeetingId;
+        Description = command.Description;
+        Date = command.Date;
+        StartTime = command.Start;
+        EndTime = command.End;
+        AdministratorId = new AdministratorId(command.AdministratorId);
+        ClassroomId = new ClassroomId(command.ClassroomId);
+    }
+    
+    public void UpdateTitle(string? title)
+    {
+        if (!string.IsNullOrEmpty(title))
+            Title = title;
+    }
+
+    public void UpdateDescription(string? description)
+    {
+        if (!string.IsNullOrEmpty(description))
+            Description = description;
+    }
+
+    public void UpdateDate(DateOnly? date)
+    {
+        if (date.HasValue)
+            Date = date.Value;
+    }
+
+    public void UpdateTime(TimeOnly? start, TimeOnly? end)
+    {
+        if (start.HasValue) StartTime = start.Value;
+        if (end.HasValue) EndTime = end.Value;
+    }
+
+    public void UpdateAdministrator(int? adminId, Func<int, bool> validateAdmin)
+    {
+        if (adminId.HasValue && validateAdmin(adminId.Value))
+            AdministratorId = new AdministratorId(adminId.Value);
+    }
+
+    public void UpdateClassroom(int? classroomId, Func<int, bool> validateClassroom)
+    {
+        if (classroomId.HasValue && validateClassroom(classroomId.Value))
+            ClassroomId = new ClassroomId(classroomId.Value);
+    }
+
 }
