@@ -28,10 +28,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Environment variables//
 
-string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
-string user = Environment.GetEnvironmentVariable("DB_USER") ?? "";
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
-string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "";
+string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
+string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
+string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "eduspace";
 
 string connectionString = $"server={server};user={user};password={password};database={database}";
 
