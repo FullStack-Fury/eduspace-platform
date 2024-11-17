@@ -21,6 +21,7 @@ using System;
 /// The current status of the report (e.g., Pending, Processed, Completed).
 /// </param>
 public record ReportResource(
+    long Id,
     string KindOfReport,
     string Description,
     string ResourceId,

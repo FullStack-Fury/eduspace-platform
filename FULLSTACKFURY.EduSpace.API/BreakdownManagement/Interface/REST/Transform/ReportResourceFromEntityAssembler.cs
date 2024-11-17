@@ -17,6 +17,7 @@ public static class ReportResourceFromEntityAssembler
     public static ReportResource ToResourceFromEntity(Report entity)
     {
         return new ReportResource(
+            entity.Id,
             entity.KindOfReport,         // KindOfReport as string
             entity.Description,          // Description as string
             entity.ResourceId.ToString(), // Convert ResourceId from int to string
