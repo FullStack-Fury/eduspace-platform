@@ -9,7 +9,6 @@ public record MeetingResource(
     DateOnly Date,
     TimeOnly Start,
     TimeOnly End,
-    List<Teacher> Teachers,
     AdministratorId AdministratorId,
     ClassroomId ClassroomId
 );

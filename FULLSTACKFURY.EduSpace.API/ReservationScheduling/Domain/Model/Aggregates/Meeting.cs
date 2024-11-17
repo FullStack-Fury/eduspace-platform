@@ -36,7 +36,7 @@ public class Meeting
         Date = command.Date;
         StartTime = command.Start;
         EndTime = command.End;
-        AdministratorId = new AdministratorId(command.AdminId);
+        AdministratorId = new AdministratorId(command.AdministratorId);
         ClassroomId = new ClassroomId(command.ClassroomId);
     }
 }

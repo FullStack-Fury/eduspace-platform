@@ -8,7 +8,6 @@ public record CreateMeetingResource(
     DateOnly Date,
     TimeOnly Start,
     TimeOnly End,
-    List<Teacher> Teachers,
-    int AdminId,
-    string ClassroomName
+    int AdministratorId,
+    int ClassroomId
 );

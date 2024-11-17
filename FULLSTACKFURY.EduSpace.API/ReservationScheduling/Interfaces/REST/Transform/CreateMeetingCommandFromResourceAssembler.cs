@@ -7,18 +7,13 @@ public class CreateMeetingCommandFromResourceAssembler
 {
     public static CreateMeetingCommand ToCommandFromResource(CreateMeetingResource resource)
     {
-        var teachers = resource.Teachers.Select(teacher => 
-            (teacher.Id, teacher.FirstName, teacher.LastName)
-        ).ToList();
-        
         return new CreateMeetingCommand(
             resource.Title,
             resource.Description,
             resource.Date,
             resource.Start,
             resource.End,
-            teachers,
-            resource.AdminId,
-            resource.ClassroomName);
+            resource.AdministratorId,
+            resource.ClassroomId);
     }
 }
