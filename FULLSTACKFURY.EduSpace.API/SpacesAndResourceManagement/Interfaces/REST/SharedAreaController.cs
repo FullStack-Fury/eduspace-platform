@@ -10,12 +10,12 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/shared-area")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Shared Areas Endpoints")]
 public class SharedAreaController(ISharedAreaQueryService sharedAreaQueryService, ISharedAreaCommandService sharedAreaCommandService) : ControllerBase
 {
-    [HttpGet("{sharedAreaId:int}")]
+    [HttpGet("{shared-area-id:int}")]
     [SwaggerOperation(
         Summary = "Get a shared area by id",
         Description = "Get a shared area by id",
