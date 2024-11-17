@@ -10,31 +10,24 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.
 
 
 public class MeetingCommandService (IMeetingRepository meetingRepository
-    , IUnitOfWork unitOfWork, IExternalProfileService externalProfileService, IExternalClassroomService externalClassroomService) : IMeetingCommandService
+    , IUnitOfWork unitOfWork, 
+    IExternalProfileService externalProfileService, 
+    IExternalClassroomService externalClassroomService) : IMeetingCommandService
 {
     public async Task<Meeting?> Handle(CreateMeetingCommand command)
     {
-        var teacherIds = command.Teachers.Select(t => t.Id).ToList();
-        if (!externalProfileService.ValidateTeachersExistence(teacherIds))
-            throw new ArgumentException("One or more teachers do not exist.");
+        // var teacherIds = command.Teachers.Select(t => t.Id).ToList();
+        // if (!externalProfileService.ValidateTeachersExistence(teacherIds))
+        //     throw new ArgumentException("One or more teachers do not exist.");
         
-        if (!externalProfileService.ValidateAdminIdExistence(command.AdminId))
+        if (!externalProfileService.ValidateAdminIdExistence(command.AdministratorId))
             throw new ArgumentException("Admin ID does not exist.");
         
-        if (!externalClassroomService.ValidateClassroomName(command.ClassroomName))
-            throw new ArgumentException("Classroom Name does not exist.");
+        if (!externalClassroomService.ValidateClassroomId(command.ClassroomId))
+            throw new ArgumentException("Classroom does not exist.");
         
         // Create a new Meeting object
-        var meeting = new Meeting(
-            command.Title,
-            command.Description,
-            command.Date,
-            command.Start,
-            command.End,
-            command.Teachers.Select(t => new Teacher(t.Id, t.FirstName, t.LastName)).ToList(),
-            command.AdminId,
-            command.ClassroomName
-        );
+        var meeting = new Meeting(command);
 
         // Add the new meeting to the repository
         await meetingRepository.AddAsync(meeting);

@@ -5,6 +5,5 @@ public record CreateMeetingCommand(string Title,
                                     DateOnly Date,
                                     TimeOnly Start, 
                                     TimeOnly End,  
-                                    List<(int Id, string FirstName, string LastName)> Teachers,
-                                    int AdminId, 
-                                    string ClassroomName);
+                                    int AdministratorId, 
+                                    int  ClassroomId);

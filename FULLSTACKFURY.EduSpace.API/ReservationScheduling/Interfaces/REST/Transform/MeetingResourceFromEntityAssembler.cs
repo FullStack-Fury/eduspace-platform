@@ -23,6 +23,6 @@ public class MeetingResourceFromEntityAssembler
             entity.EndTime,
             teachers,
             entity.AdminId,
-            entity.ClassroomName);
+            entity.ClassroomId);
     }
 }

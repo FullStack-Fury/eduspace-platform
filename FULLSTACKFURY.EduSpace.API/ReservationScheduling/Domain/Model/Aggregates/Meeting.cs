@@ -12,22 +12,21 @@ public class Meeting
     public TimeOnly StartTime { get; private set; } 
     public TimeOnly EndTime { get; private set; }
     
-    public List<Teacher> Teachers { get; private set; } 
-    public AdminId AdminId { get; private set; }
-    public ClassroomName ClassroomName { get; private set; }
+    // public List<Teacher> Teachers { get; private set; } 
+    public AdministratorId AdministratorId { get; private set; }
+    public ClassroomId ClassroomId { get; private set; }
 
     public Meeting(string title, string description, DateOnly date, 
-                    TimeOnly start, TimeOnly end, List<Teacher> teachers,
-                    int adminId, string classroomName)
+                    TimeOnly start, TimeOnly end,
+                    int administratorId, int classroomId)
     {
         Title = title;
         Description = description;
         Date = date;
         StartTime = start;
         EndTime = end;
-        Teachers = teachers ?? new List<Teacher>();
-        AdminId = new AdminId(adminId);
-        ClassroomName = new ClassroomName(classroomName);
+        AdministratorId = new AdministratorId(administratorId);
+        ClassroomId = new ClassroomId(classroomId);
     }
 
     public Meeting(CreateMeetingCommand command)
@@ -37,14 +36,7 @@ public class Meeting
         Date = command.Date;
         StartTime = command.Start;
         EndTime = command.End;
-        AdminId = new AdminId(command.AdminId);
-        
-        Teachers = new List<Teacher>();
-        foreach (var (id, firstName, lastName) in command.Teachers)
-        {
-            Teachers.Add(new Teacher(id, firstName, lastName));
-        }
-        
-        ClassroomName = new ClassroomName(command.ClassroomName);
+        AdministratorId = new AdministratorId(command.AdminId);
+        ClassroomId = new ClassroomId(command.ClassroomId);
     }
 }
