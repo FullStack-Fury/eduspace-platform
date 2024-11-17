@@ -26,8 +26,15 @@ using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.ACL.Services;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.CommandServices;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.QueryServices;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using IExternalProfileService = FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.OutboundServices.IExternalProfileService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -160,6 +167,21 @@ builder.Services.AddScoped<IExternalProfileService, ExternalProfileServices>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 builder.Services.AddScoped<IReservationQueryService, ReservationQueryService>();
 
+// Spaces and Resource BC
+// Classrooms
+builder.Services.AddScoped<FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL.IExternalProfileService, ExternalProfileService>();
+builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
+builder.Services.AddScoped<IClassroomCommandService, ClassroomCommandService>();
+builder.Services.AddScoped<IClassroomQueryService, ClassroomQueryService>();
+// Resources
+builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
+builder.Services.AddScoped<IResourceCommandService, ResourceCommandService>();
+builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
+
+// Shared Areas
+builder.Services.AddScoped<ISharedAreaRepository, SharedAreaRepository>();
+builder.Services.AddScoped<ISharedAreaCommandService, SharedAreaCommandService>();
+builder.Services.AddScoped<ISharedAreaQueryService, SharedAreaQueryService>();
 
 //Token Settings Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));

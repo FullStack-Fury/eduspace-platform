@@ -1,4 +1,5 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+﻿using System.ComponentModel.DataAnnotations;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
@@ -10,6 +11,7 @@ namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Ag
 /// </remarks>
 public class Resource
 {
+    [Key]
     public int Id { get; set; }
     public string Name { get; private set; }
     public string KindOfResource { get; private set; }
