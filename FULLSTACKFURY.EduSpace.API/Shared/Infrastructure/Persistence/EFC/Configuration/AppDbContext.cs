@@ -101,14 +101,16 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
             });
 
-
+        
         builder.Entity<Classroom>().HasKey(c => c.Id);
         builder.Entity<Classroom>().Property(c => c.Name).IsRequired();
         builder.Entity<Classroom>().Property(c => c.Description).IsRequired();
-        builder.Entity<Classroom>()
-            .Property(c => c.TeacherId)
-            .IsRequired()
-            .HasColumnName("TeacherId");
+        builder.Entity<Classroom>().OwnsOne(r => r.TeacherId,
+            ti =>
+            {
+                ti.WithOwner().HasForeignKey("Id");
+                ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
+            });
         
         builder.Entity<Resource>().HasKey(r => r.Id);
         builder.Entity<Resource>().Property(r => r.Name).IsRequired();

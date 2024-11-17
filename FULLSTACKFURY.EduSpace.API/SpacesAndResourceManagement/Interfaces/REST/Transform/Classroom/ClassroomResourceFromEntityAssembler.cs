@@ -19,6 +19,6 @@ public class ClassroomResourceFromEntityAssembler
     /// </returns>
     public static ClassroomResource ToResourceFromEntity(Classroom entity)
     {
-        return new ClassroomResource(entity.Id, entity.Name, entity.Description, entity.TeacherId.Id);
+        return new ClassroomResource(entity.Id, entity.Name, entity.Description, entity.TeacherId.TeacherIdentifier);
     }
 }
