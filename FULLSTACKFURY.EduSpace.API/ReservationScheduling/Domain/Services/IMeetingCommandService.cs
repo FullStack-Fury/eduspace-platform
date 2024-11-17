@@ -6,5 +6,6 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 public interface IMeetingCommandService
 {
     Task<Meeting?> Handle (CreateMeetingCommand command);
-    void Handle(DeleteMeetingCommand command);
+    Task Handle(DeleteMeetingCommand command); 
+    Task<Meeting?> Handle(UpdateMeetingCommand command);
 }
