@@ -66,21 +66,5 @@ public class MeetingsController : ControllerBase
         var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
-
-    [HttpGet("teacher/{teacherId:int}")]
-    [SwaggerOperation(
-        Summary = "Gets meetings by teacher ID",
-        Description = "Retrieves all meetings assigned to a specific teacher",
-        OperationId = "GetAllMeetingsByTeacherId"
-    )]
-    public async Task<IActionResult> GetAllMeetingsByTeacherId([FromRoute] int teacherId)
-    {
-        var getAllMeetingByTeacherIdQuery = new GetAllMeetingByTeacherIdQuery(teacherId);
-        var meetings = await meetingQueryService.Handle(getAllMeetingByTeacherIdQuery);
-        var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-    
-    
     
 }

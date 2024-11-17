@@ -14,9 +14,4 @@ public class MeetingRepository(AppDbContext context)
         {
                 return await Context.Set<Meeting>().Where(f =>f.AdminId.AdminIdentifier == adminId).ToListAsync();
         }
-
-        public async Task<IEnumerable<Meeting>> FindAllByTeacherIdAsync(int teacherId)
-        {
-                return await Context.Set<Meeting>().Where(f => f.TeacherId.TeacherIdentifier == teacherId).ToListAsync();
-        }
 }

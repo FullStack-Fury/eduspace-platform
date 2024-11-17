@@ -1,6 +1,7 @@
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
@@ -9,28 +10,30 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.
 
 
 public class MeetingCommandService (IMeetingRepository meetingRepository
-    , IUnitOfWork unitOfWork, IExternalProfileService externalProfileService) : IMeetingCommandService
+    , IUnitOfWork unitOfWork, IExternalProfileService externalProfileService, IExternalClassroomService externalClassroomService) : IMeetingCommandService
 {
-    
-    
-    
     public async Task<Meeting?> Handle(CreateMeetingCommand command)
     {
-        if (!externalProfileService.ValidateTeacherIdExistence(command.TeacherId))
-            throw new ArgumentException("Teacher ID does not exist.");
-
+        var teacherIds = command.Teachers.Select(t => t.Id).ToList();
+        if (!externalProfileService.ValidateTeachersExistence(teacherIds))
+            throw new ArgumentException("One or more teachers do not exist.");
+        
         if (!externalProfileService.ValidateAdminIdExistence(command.AdminId))
             throw new ArgumentException("Admin ID does not exist.");
-
+        
+        if (!externalClassroomService.ValidateClassroomName(command.ClassroomName))
+            throw new ArgumentException("Classroom Name does not exist.");
+        
         // Create a new Meeting object
         var meeting = new Meeting(
             command.Title,
             command.Description,
+            command.Date,
             command.Start,
             command.End,
-            command.Date,
-            command.TeacherId,
-            command.AdminId
+            command.Teachers.Select(t => new Teacher(t.Id, t.FirstName, t.LastName)).ToList(),
+            command.AdminId,
+            command.ClassroomName
         );
 
         // Add the new meeting to the repository

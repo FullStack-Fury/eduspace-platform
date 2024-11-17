@@ -29,4 +29,5 @@ public interface IClassroomRepository : IBaseRepository<Classroom>
     /// True if the classroom exists, otherwise false.
     /// </returns>
     Task<bool> ExistsByNameAsync(string name);
+    bool ExistsByClassroomName(string name);
 }

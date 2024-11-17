@@ -37,4 +37,9 @@ public class ClassroomRepository(AppDbContext context) : BaseRepository<Classroo
         return await Context.Set<Classroom>()
             .AnyAsync(classroom => classroom.Name == name);
     }
+
+    public bool ExistsByClassroomName(string name)
+    {
+        return Context.Set<Classroom>().Any(classroom => classroom.Name == name);
+    }
 }

@@ -8,5 +8,4 @@ public interface IMeetingQueryService
     Task<IEnumerable<Meeting>> Handle(GetAllMeetingsQuery query);
     Task<IEnumerable<Meeting>> Handle(GetMeetingByIdQuery query);
     Task<IEnumerable<Meeting>> Handle(GetAllMeetingByAdminIdQuery query);
-    Task<IEnumerable<Meeting>> Handle(GetAllMeetingByTeacherIdQuery query);
 }
