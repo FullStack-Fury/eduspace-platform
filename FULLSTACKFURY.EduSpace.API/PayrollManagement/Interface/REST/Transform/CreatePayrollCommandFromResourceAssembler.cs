@@ -19,6 +19,6 @@ public static class CreatePayrollCommandFromResourceAssembler
     /// </returns>
     public static CreatePayrollCommand ToCommand(CreatePayrollResource resource)
     {
-        return new CreatePayrollCommand(resource.TeacherId, resource.SalaryAmount, resource.SalaryBonus, resource.DatePayment);
+        return new CreatePayrollCommand(resource.TeacherId, resource.SalaryAmount, resource.SalaryBonus);
     }
 }

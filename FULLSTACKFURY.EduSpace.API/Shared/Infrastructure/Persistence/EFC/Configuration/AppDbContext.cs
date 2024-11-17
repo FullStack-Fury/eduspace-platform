@@ -120,14 +120,6 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 pa.Property(p => p.PensionContribution).HasColumnName("PensionContribution").IsRequired();
                 pa.Property(p => p.SalaryBonus).HasColumnName("SalaryBonus").IsRequired();
             });
-
-        // Configuración de DatePayment como Owned Type sin clave
-        builder.Entity<Payroll>().OwnsOne(p => p.DatePayment, dp =>
-            {
-                dp.WithOwner().HasForeignKey("Id");
-                dp.Property(d => d.Value).HasColumnName("DatePayment").IsRequired();
-            });
-
         
         
         

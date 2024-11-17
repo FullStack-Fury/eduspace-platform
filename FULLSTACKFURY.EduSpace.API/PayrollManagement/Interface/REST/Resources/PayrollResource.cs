@@ -16,4 +16,4 @@
 /// The date when the payroll is issued.
 /// </param>
 
-public record PayrollResource(int TeacherId, decimal SalaryAmount, decimal PayrollAdjustment, decimal SalaryBonus, DateTime DatePayment);
+public record PayrollResource(int TeacherId, decimal SalaryAmount, decimal PayrollAdjustment, decimal SalaryBonus);

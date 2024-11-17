@@ -18,6 +18,5 @@
 public record CreatePayrollCommand(
     int TeacherId,
     decimal SalaryAmount,
-    decimal SalaryBonus,
-    DateTime DatePayment)
+    decimal SalaryBonus)
 {};

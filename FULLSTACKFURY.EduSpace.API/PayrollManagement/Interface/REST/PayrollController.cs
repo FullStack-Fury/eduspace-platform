@@ -65,30 +65,6 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     }
 
     /// <summary>
-    /// Retrieves payroll entries by teacher ID.
-    /// </summary>
-    /// <param name="teacherId">
-    /// The ID of the teacher whose payroll entries are to be retrieved.
-    /// </param>
-    /// <returns>
-    /// The list of <see cref="PayrollResource"/> entries for the specified teacher.
-    /// </returns>
-    [HttpGet("teachers/{teacherId:int}")]
-    [SwaggerOperation(
-        Summary = "Get payroll entries by teacher ID",
-        Description = "Get all payroll entries for a specific teacher",
-        OperationId = "GetAllPayrollsByTeacherId"
-    )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The payroll entries for the teacher were successfully retrieved", typeof(IEnumerable<PayrollResource>))]
-    public async Task<IActionResult> GetAllPayrollsByTeacherId([FromRoute] int teacherId)
-    {
-        var getAllPayrollsByTeacherIdQuery = new GetPayrollByTeacherIdQuery(teacherId);
-        var payrolls = await payrollQueryService.Handle(getAllPayrollsByTeacherIdQuery);
-        var resources = payrolls.Select(PayrollResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-
-    /// <summary>
     /// Retrieves a payroll entry by ID.
     /// </summary>
     /// <param name="id">
