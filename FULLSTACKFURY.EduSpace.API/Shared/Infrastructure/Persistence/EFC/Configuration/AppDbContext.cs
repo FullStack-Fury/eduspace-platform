@@ -109,25 +109,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         
         builder.Entity<Meeting>().Property(m => m.Title).IsRequired();
         builder.Entity<Meeting>().Property(m => m.Description).IsRequired();
-        builder.Entity<Meeting>().OwnsOne(m => m.MeetingDate,
-            md =>
-            {
-                md.WithOwner().HasForeignKey("Id");
-                md.Property(m => m.Start).HasColumnName("Start");
-                md.Property(m => m.End).HasColumnName("End");
-            });
-        builder.Entity<Meeting>().OwnsOne(m => m.TeacherId,
-            ti =>
-            {
-                ti.WithOwner().HasForeignKey("Id");
-                ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
-            });
-        builder.Entity<Meeting>().OwnsOne(m => m.AdminId,
+        builder.Entity<Meeting>().Property(m => m.Date).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.StartTime).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.EndTime).IsRequired();
+        
+        builder.Entity<Meeting>().OwnsOne(m => m.AdministratorId,
             ai =>
             {
                 ai.WithOwner().HasForeignKey("Id");
                 ai.Property(r => r.AdminIdentifier).HasColumnName("TeacherId");
             });
+        
+        builder.Entity<Meeting>().OwnsOne(m => m.ClassroomId,
+            ci =>
+            {
+                ci.WithOwner().HasForeignKey("Id");
+                ci.Property(r => r.Id).HasColumnName("ClassroomId");
+            });
+
         
         base.OnModelCreating(builder);
         
