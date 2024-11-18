@@ -32,17 +32,17 @@ public class Resource
     /// <param name="classroomId">
     /// The classroom id
     /// </param>
-    public Resource(string name, string KindOfResource, int classroomId): this()
+    public Resource(string name, string kindOfResource, int classroomId): this()
     {
         Name = name;
-        this.KindOfResource = KindOfResource;
+        KindOfResource = kindOfResource;
         ClassroomId = classroomId;
     }
     
     public Resource(CreateResourceCommand command)
     {
         Name = command.Name;
-        this.KindOfResource = command.KindOfResource;
+        KindOfResource = command.KindOfResource;
         ClassroomId = command.ClassroomId;
     }
 }

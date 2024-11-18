@@ -1,7 +1,6 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,5 +35,15 @@ public class ClassroomRepository(AppDbContext context) : BaseRepository<Classroo
     {
         return await Context.Set<Classroom>()
             .AnyAsync(classroom => classroom.Name == name);
+    }
+
+    public bool ExistsByClassroomId(int id)
+    {
+        return Context.Set<Classroom>().Any(classroom => classroom.Id == id);
+    }
+
+    public bool ExistsByClassroomName(string name)
+    {
+        return Context.Set<Classroom>().Any(classroom => classroom.Name == name);
     }
 }
