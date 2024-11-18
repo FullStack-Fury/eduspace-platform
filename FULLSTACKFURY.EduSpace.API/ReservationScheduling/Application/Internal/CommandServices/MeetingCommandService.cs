@@ -38,11 +38,33 @@ public class MeetingCommandService (IMeetingRepository meetingRepository
         return meeting;
     }
 
-    public async void Handle(DeleteMeetingCommand command)
+    public async Task Handle(DeleteMeetingCommand command)
     {
         var meeting = await meetingRepository.FindByIdAsync(command.MeetingId);
         if (meeting == null) throw new ArgumentException("Meeting not found.");
 
         meetingRepository.Remove(meeting);
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task<Meeting?> Handle(UpdateMeetingCommand command)
+    {
+        var meeting = await meetingRepository.FindByIdAsync(command.MeetingId);
+        if (meeting == null)
+            throw new ArgumentException("Meeting not found.");
+
+        meeting.UpdateTitle(command.Title);
+        meeting.UpdateDescription(command.Description);
+        meeting.UpdateDate(command.Date);
+        meeting.UpdateTime(command.Start, command.End);
+
+        meeting.UpdateAdministrator(command.AdministratorId, externalProfileService.ValidateAdminIdExistence);
+        meeting.UpdateClassroom(command.ClassroomId, externalClassroomService.ValidateClassroomId);
+
+        meetingRepository.Update(meeting);
+        await unitOfWork.CompleteAsync();
+
+        return meeting;
     }
 }

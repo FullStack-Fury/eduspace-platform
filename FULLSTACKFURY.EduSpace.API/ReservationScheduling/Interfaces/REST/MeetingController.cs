@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Resources;
@@ -51,20 +52,64 @@ public class MeetingsController : ControllerBase
         var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
+ 
 
-    [HttpGet("admin/{adminId:int}")]
+    [HttpPut("{id:int}")]
     [SwaggerOperation(
-        Summary = "Gets meetings by admin ID",
-        Description = "Retrieves all meetings created by a specific admin",
-        OperationId = "GetAllMeetingsByAdminId"
+        Summary = "Updates a meeting",
+        Description = "Updates a meeting by its ID with the provided details",
+        OperationId = "UpdateMeeting"
     )]
-    public async Task<IActionResult> GetAllMeetingsByAdminId([FromRoute] int adminId)
+    [SwaggerResponse(200, "The meeting was updated successfully", typeof(MeetingResource))]
+    [SwaggerResponse(404, "The meeting was not found")]
+    public async Task<IActionResult> UpdateMeeting([FromRoute] int id, [FromBody] UpdateMeetingResource resource)
     {
-        var getAllMeetingByAdminIdQuery = new GetAllMeetingByAdminIdQuery(adminId);
-        var meetings = await meetingQueryService.Handle(getAllMeetingByAdminIdQuery);
-   
-        var resources = meetings.Select(MeetingResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
+        try
+        {
+            // Map the resource to the UpdateMeetingCommand
+            var updateMeetingCommand = UpdateMeetingCommandFromResourceAssembler.ToCommandFromResource(id, resource);
+
+            // Handle the update command
+            var updatedMeeting = await meetingCommandService.Handle(updateMeetingCommand);
+
+            // If the meeting was not updated, return not found
+            if (updatedMeeting is null)
+                return NotFound(new { Message = "Meeting not found." });
+
+            // Map the updated meeting entity to the resource
+            var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(updatedMeeting);
+            return Ok(meetingResource);
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(new { Message = ex.Message });
+        }
+    }
+    
+    [HttpDelete("{id:int}")]
+    [SwaggerOperation(
+        Summary = "Deletes a meeting",
+        Description = "Deletes the meeting specified by its ID",
+        OperationId = "DeleteMeeting"
+    )]
+    [SwaggerResponse(200, "The meeting was deleted successfully.")]
+    [SwaggerResponse(404, "Meeting not found.")]
+    public async Task<IActionResult> DeleteMeeting([FromRoute] int id)
+    {
+        try
+        {
+            var deleteMeetingCommand = new DeleteMeetingCommand(id);
+            await meetingCommandService.Handle(deleteMeetingCommand);
+            return Ok($"Meeting with ID {id} was deleted successfully.");
+        }
+        catch (ArgumentException ex)
+        {
+            return NotFound(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"An unexpected error occurred: {ex.Message}");
+        }
     }
     
 }
