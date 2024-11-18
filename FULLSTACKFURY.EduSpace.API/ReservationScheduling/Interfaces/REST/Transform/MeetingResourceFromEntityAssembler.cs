@@ -10,7 +10,7 @@ public class MeetingResourceFromEntityAssembler
     {
         
         return new MeetingResource(
-            entity.MeetingId,
+            entity.Id,
             entity.Title,
             entity.Description,
             entity.Date,

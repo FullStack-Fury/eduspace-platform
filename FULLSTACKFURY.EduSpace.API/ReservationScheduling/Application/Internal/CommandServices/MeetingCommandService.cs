@@ -1,7 +1,6 @@
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
