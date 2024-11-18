@@ -53,7 +53,7 @@ string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
 string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
 string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "eduspace";
 
-string connectionString = $"server={server};user={user};password={password};database={database}";
+string connectionString = $"server=eduspace.c1gic626oxoq.us-east-2.rds.amazonaws.com; user=root;password=password;database=EduSpace";
 
 Console.WriteLine(connectionString);
 
