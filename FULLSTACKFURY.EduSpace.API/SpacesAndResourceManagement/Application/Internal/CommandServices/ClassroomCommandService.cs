@@ -3,7 +3,8 @@ using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Outboun
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
+using Google.Protobuf.WellKnownTypes;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Internal.CommandServices;
 
@@ -34,4 +35,30 @@ public class ClassroomCommandService(
         await unitOfWork.CompleteAsync();
         return classroom;
     }
-}
+    
+    public async Task Handle(DeleteClassroomCommand command)
+    {
+        var classroom = await classroomRepository.FindByIdAsync(command.ClassroomId);
+        if (classroom == null) throw new ArgumentException("Classroom not found.");
+
+        classroomRepository.Remove(classroom);
+
+        await unitOfWork.CompleteAsync();
+    }
+
+    public async Task<Classroom?> Handle(UpdateClassroomCommand command)
+    {
+        var classroom = await classroomRepository.FindByIdAsync(command.ClassroomId);
+        if ( classroom == null )
+            throw new ArgumentException("Classroom not found.");
+
+        classroom.UpdateName(command.Name);
+        classroom.UpdateDescription(command.Description);
+
+        classroom.UpdateTeacherId(command.TeacherId, profileService.VerifyProfile);
+
+        classroomRepository.Update(classroom);
+        await unitOfWork.CompleteAsync();
+
+        return classroom;
+    }}

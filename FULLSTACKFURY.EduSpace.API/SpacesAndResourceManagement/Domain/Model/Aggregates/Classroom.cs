@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.ValueObjects;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
@@ -48,5 +47,30 @@ public partial class Classroom
         Name = command.Name;
         Description = command.Description;
         TeacherId = new TeacherId(command.TeacherId);
+    }
+
+    public Classroom(UpdateClassroomCommand command)
+    {
+        Name = command.Name;
+        Description = command.Description;
+        TeacherId = new TeacherId(command.TeacherId);
+    }
+    
+    public void UpdateName(string name)
+    {
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+    }
+    
+    public void UpdateDescription(string description)
+    {
+        if (!string.IsNullOrEmpty(description))
+            Description = description;
+    }
+    
+    public void UpdateTeacherId(int? teacherId, Func<int, bool> verifyProfile)
+    {
+        if (teacherId.HasValue && verifyProfile(teacherId.Value))
+            TeacherId = new TeacherId(teacherId.Value);
     }
 }

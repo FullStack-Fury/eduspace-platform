@@ -1,5 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
@@ -18,4 +18,7 @@ public interface IClassroomCommandService
     /// The created <see cref="Classroom"/> entity.
     /// </returns>
     Task<Classroom?> Handle(CreateClassroomCommand command);
+    
+    Task Handle(DeleteClassroomCommand command);
+    Task <Classroom?>Handle(UpdateClassroomCommand command);
 }
