@@ -2,7 +2,7 @@ using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.ACL;
 
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
 
-public class ExternalProfileServices(IProfilesContextFacade contextFacade) : IExternalProfileService
+public class RExternalProfileServices(IProfilesContextFacade contextFacade) : IRExternalProfileService
 {
     public bool ValidateTeacherExistence(int teacherId)  
     {

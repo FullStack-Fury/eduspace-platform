@@ -11,7 +11,7 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.
 
 public class MeetingCommandService (IMeetingRepository meetingRepository
     , IUnitOfWork unitOfWork, 
-    IExternalProfileService externalProfileService, 
+    IRExternalProfileService externalProfileService, 
     IExternalClassroomService externalClassroomService) : IMeetingCommandService
 {
     public async Task<Meeting?> Handle(CreateMeetingCommand command)
