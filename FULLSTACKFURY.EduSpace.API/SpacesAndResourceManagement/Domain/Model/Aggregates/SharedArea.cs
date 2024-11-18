@@ -1,4 +1,4 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.SharedArea;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
@@ -43,5 +43,31 @@ public partial class SharedArea
         Name = command.Name;
         Capacity = command.Capacity;
         Description = command.Description;
+    }
+    
+    public SharedArea(UpdateSharedAreaCommand command): this()
+    {
+        Id = command.Id;
+        Name = command.Name;
+        Capacity = command.Capacity;
+        Description = command.Description;
+    }
+    
+    public void UpdateName(string name)
+    {
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+    }
+    
+    public void UpdateDescription(string description)
+    {
+        if (!string.IsNullOrEmpty(description))
+            Description = description;
+    }
+    
+    public void UpdateCapacity(int capacity)
+    {
+        if (capacity > 0)
+            Capacity = capacity;
     }
 }

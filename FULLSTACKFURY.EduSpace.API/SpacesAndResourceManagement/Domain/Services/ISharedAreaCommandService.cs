@@ -1,5 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.SharedArea;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
@@ -18,4 +18,6 @@ public interface ISharedAreaCommandService
     /// The created <see cref="SharedArea"/> entity.
     /// </returns>
     Task<SharedArea?> Handle(CreateSharedAreaCommand command);
+    Task Handle(DeleteSharedAreaCommand command);
+    Task<SharedArea?> Handle(UpdateSharedAreaCommand command);
 }
