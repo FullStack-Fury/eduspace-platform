@@ -44,5 +44,13 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Infrastructure.Persiste
             Context.Set<Report>().Update(report);
             await Context.SaveChangesAsync();
         }
+        
+        public async Task<IEnumerable<Report>> FindAllByTeacherIdAsync(int teacherId)
+        {
+            return await Context.Set<Report>()
+                .Where(p => p.TeacherId == teacherId)
+                .ToListAsync();
+        }
+        
     }
 }

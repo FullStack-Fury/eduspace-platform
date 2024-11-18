@@ -44,5 +44,11 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.Qu
             // Retrieve all reports by resource ID
             return await _reportRepository.FindAllByResourceIdAsync(query.ResourceId);
         }
+        
+        public Task<IEnumerable<Report>> Handle(GetReportByTeacherIdQuery query)
+        {
+            return _reportRepository.FindAllByTeacherIdAsync(query.TeacherId);
+        }
+        
     }
 }

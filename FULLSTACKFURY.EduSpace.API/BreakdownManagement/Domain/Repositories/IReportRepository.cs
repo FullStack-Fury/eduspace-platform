@@ -36,4 +36,14 @@ public interface IReportRepository : IBaseRepository<Report>
     Task DeleteAsync(Report report); // Agregamos el método DeleteAsync
     
     Task UpdateAsync(Report report); 
+    
+    
+    /// <summary>
+    /// Retrieves all payroll entries associated with a specific teacher ID.
+    /// </summary>
+    /// <param name="teacherId">The unique identifier of the teacher.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains a list of payroll entries for the specified teacher.
+    /// </returns>
+    Task<IEnumerable<Report>> FindAllByTeacherIdAsync(int teacherId);
 }

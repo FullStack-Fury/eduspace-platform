@@ -189,5 +189,29 @@
 
                 return NoContent(); // Successfully deleted
             }
+            
+            /// <summary>
+            /// Retrieves payroll entries by teacher ID.
+            /// </summary>
+            /// <param name="teacherId">
+            /// The ID of the teacher whose payroll entries are to be retrieved.
+            /// </param>
+            /// <returns>
+            /// The list of <see cref="ReportResource"/> entries for the specified teacher.
+            /// </returns>
+            [HttpGet("teachers/{teacherId:int}")]
+            [SwaggerOperation(
+                Summary = "Get payroll entries by teacher ID",
+                Description = "Get all payroll entries for a specific teacher",
+                OperationId = "GetAllPayrollsByTeacherId"
+            )]
+            [SwaggerResponse(StatusCodes.Status200OK, "The payroll entries for the teacher were successfully retrieved", typeof(IEnumerable<ReportResource>))]
+            public async Task<IActionResult> GetAllReportsByTeacherId([FromRoute] int teacherId)
+            {
+                var getAllReportsByTeacherIdQuery = new GetReportByTeacherIdQuery(teacherId);
+                var reports = await reportQueryService.Handle(getAllReportsByTeacherIdQuery);
+                var resources = reports.Select(ReportResourceFromEntityAssembler.ToResourceFromEntity);
+                return Ok(resources);
+            }
         }
     }

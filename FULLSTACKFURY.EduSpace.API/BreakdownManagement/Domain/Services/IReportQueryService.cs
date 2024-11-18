@@ -34,4 +34,13 @@ public interface IReportQueryService
     /// A task that represents the asynchronous operation. The task result contains a list of reports associated with the specified resource.
     /// </returns>
     Task<IEnumerable<Report>> HandleReportsByResourceIdQuery(GetReportByResourceIdQuery query);
+    
+    /// <summary>
+    /// Handles the query to retrieve all payroll entries for a specific teacher.
+    /// </summary>
+    /// <param name="query">The <see cref="GetReportByTeacherIdQuery"/> containing the teacher ID.</param>
+    /// <returns>
+    /// A task that represents the asynchronous operation. The task result contains a list of payroll entries associated with the specified teacher.
+    /// </returns>
+    Task<IEnumerable<Report>> Handle(GetReportByTeacherIdQuery query);
 }
