@@ -4,9 +4,8 @@ using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.X509.Qualified;
 
@@ -101,49 +100,36 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 ti.WithOwner().HasForeignKey("Id");
                 ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
             });
-        
-        
-        //Events Scheduling Context        
 
-        builder.Entity<Meeting>().HasKey(m => m.MeetingId);
-        builder.Entity<Meeting>().Property(m => m.MeetingId).IsRequired().ValueGeneratedOnAdd();
-        builder.Entity<Meeting>().Property(m => m.Title).IsRequired();
-        builder.Entity<Meeting>().Property(m => m.Description).IsRequired();
-        builder.Entity<Meeting>().Property(m => m.Date).IsRequired();
-        builder.Entity<Meeting>().Property(m => m.StartTime).IsRequired();
-        builder.Entity<Meeting>().Property(m => m.EndTime).IsRequired();
         
-        /*builder.Entity<Meeting>().OwnsOne(m => m.AdministratorId,
-            ai =>
+        builder.Entity<Classroom>().HasKey(c => c.Id);
+        builder.Entity<Classroom>().Property(c => c.Name).IsRequired();
+        builder.Entity<Classroom>().Property(c => c.Description).IsRequired();
+        builder.Entity<Classroom>().OwnsOne(r => r.TeacherId,
+            ti =>
             {
-                ai.WithOwner().HasForeignKey("Id");
-                ai.Property(r => r.AdministratorIdentifier).HasColumnName("TeacherId");
-            });*/
+                ti.WithOwner().HasForeignKey("Id");
+                ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
+            });
         
-        builder.Entity<Meeting>()
-            .Property(m => m.AdministratorId)
-            .HasConversion(
-                v => v.AdministratorIdentifier, // Convierte AdministratorId a int
-                v => new AdministratorId(v) // Convierte int a AdministratorId
-            );
+        builder.Entity<Resource>().HasKey(r => r.Id);
+        builder.Entity<Resource>().Property(r => r.Name).IsRequired();
+        builder.Entity<Resource>().Property(r => r.KindOfResource).IsRequired();
+        builder.Entity<Resource>()
+            .HasOne(r => r.Classroom)
+            .WithMany(c => c.Resources)
+            .HasForeignKey(r => r.ClassroomId)
+            .OnDelete(DeleteBehavior.Cascade);
 
+                
+        builder.Entity<SharedArea>().HasKey(sa => sa.Id);
+        builder.Entity<SharedArea>().Property(sa => sa.Name).IsRequired();
+        builder.Entity<SharedArea>().Property(sa => sa.Capacity).IsRequired();
+        builder.Entity<SharedArea>().Property(sa => sa.Description).IsRequired();
         
-        /*builder.Entity<Meeting>().OwnsOne(m => m.ClassroomId,
-            ci =>
-            {
-                ci.WithOwner().HasForeignKey("Id");
-                ci.Property(r => r.ClassroomIdentifier).HasColumnName("ClassroomId");
-            });*/
         
-        builder.Entity<Meeting>()
-            .Property(m => m.ClassroomId)
-            .HasConversion(
-                v => v.ClassroomIdentifier, // Convierte ClassroomId a int al guardar en la base de datos
-                v => new ClassroomId(v) // Convierte int a ClassroomId al recuperar de la base de datos
-            )
-            .HasColumnName("classroom_id");
-
-
+        
+        
         
         base.OnModelCreating(builder);
         

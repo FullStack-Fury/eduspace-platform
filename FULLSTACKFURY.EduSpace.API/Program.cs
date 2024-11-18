@@ -197,6 +197,11 @@ builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
 builder.Services.AddScoped<ISpacesAndResourceManagementFacade, SpacesAndResourceManagementFacade>();
 
 
+// Shared Areas
+builder.Services.AddScoped<ISharedAreaRepository, SharedAreaRepository>();
+builder.Services.AddScoped<ISharedAreaCommandService, SharedAreaCommandService>();
+builder.Services.AddScoped<ISharedAreaQueryService, SharedAreaQueryService>();
+
 //Token Settings Configuration
 builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 

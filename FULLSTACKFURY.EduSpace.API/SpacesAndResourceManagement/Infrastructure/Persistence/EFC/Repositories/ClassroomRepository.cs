@@ -12,7 +12,7 @@ public class ClassroomRepository(AppDbContext context) : BaseRepository<Classroo
     public async Task<IEnumerable<Classroom>> FindByTeacherIdAsync(int teacherId)
     {
         return await Context.Set<Classroom>()
-            .Where(classroom => classroom.TeacherId.Id == teacherId)
+            .Where(classroom => classroom.TeacherId.TeacherIdentifier == teacherId)
             .ToListAsync();
     }
 

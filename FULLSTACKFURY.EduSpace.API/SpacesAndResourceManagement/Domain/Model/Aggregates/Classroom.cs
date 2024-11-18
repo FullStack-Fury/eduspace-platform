@@ -1,4 +1,6 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.ValueObjects;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
@@ -11,10 +13,14 @@ namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Ag
 /// </remarks>
 public partial class Classroom
 {
-    public int Id { get; }
+    [Key]
+    public int Id { get; private set; }
     public string Name { get; private set; }
     public string Description { get; private set; }
+    
     public TeacherId TeacherId { get; private set; }
+    
+    public ICollection<Resource> Resources { get; private set; } = new List<Resource>();
     
     /// <summary>
     /// Default constructor for the classroom entity
@@ -28,6 +34,8 @@ public partial class Classroom
     /// <param name="teacherId">
     /// The teacher id for the classroom
     /// </param>
+    
+    public Classroom() {}
     public Classroom(string name, string description, int teacherId)
     {
         Name = name;
