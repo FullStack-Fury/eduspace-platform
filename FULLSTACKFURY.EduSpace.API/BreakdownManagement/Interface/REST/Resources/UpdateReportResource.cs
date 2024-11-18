@@ -9,5 +9,6 @@ using System;
 /// The current status of the report (e.g., Pending, Processed, Completed).
 /// </param>
 public record UpdateReportResource(
+    
     string Status
 );

@@ -19,6 +19,7 @@
     /// The date and time when the report was created.
     /// </param>
     public record CreateReportResource(
+        int TeacherId,
         int ResourceId,
         string KindOfReport,
         string Description,

@@ -9,6 +9,7 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Interface.REST.Transfor
         {
            
             return new CreateReportCommand(
+                resource.TeacherId,
                 resource.ResourceId,
                 resource.KindOfReport,
                 resource.Description,

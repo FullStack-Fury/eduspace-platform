@@ -5,6 +5,7 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates
     public class Report
     {
         public int Id { get; private set; }
+        public int TeacherId { get; private set; }
         public int ResourceId { get; private set; }
         public string KindOfReport { get; private set; }
         public string Description { get; private set; }
@@ -17,6 +18,7 @@ namespace FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Model.Aggregates
 
         public Report(CreateReportCommand command)
         {
+            TeacherId = command.TeacherId;
             ResourceId = command.ResourceId;
             KindOfReport = command.KindOfReport;
             Description = command.Description;

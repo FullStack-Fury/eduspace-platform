@@ -18,6 +18,7 @@ public static class ReportResourceFromEntityAssembler
     {
         return new ReportResource(
             entity.Id,
+            entity.TeacherId.ToString(),
             entity.KindOfReport,         // KindOfReport as string
             entity.Description,          // Description as string
             entity.ResourceId.ToString(), // Convert ResourceId from int to string

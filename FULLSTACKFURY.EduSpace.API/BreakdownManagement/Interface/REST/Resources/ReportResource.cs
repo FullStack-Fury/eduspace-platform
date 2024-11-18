@@ -22,6 +22,7 @@ using System;
 /// </param>
 public record ReportResource(
     long Id,
+    string TeacherId,
     string KindOfReport,
     string Description,
     string ResourceId,
