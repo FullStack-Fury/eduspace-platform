@@ -1,4 +1,4 @@
-using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL;
+using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.ValueObjects;
 
 namespace FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.OutboundServices.ACL;

@@ -73,7 +73,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Account>().HasKey(a => a.Id);
         builder.Entity<Account>().Property(a => a.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Account>().Property(a => a.Username).IsRequired();
-        builder.Entity<Account>().Property(a => a.Password).IsRequired();
+        builder.Entity<Account>().Property(a => a.PasswordHash).IsRequired();
         builder.Entity<Account>().Property(a => a.Role).IsRequired();
         
         

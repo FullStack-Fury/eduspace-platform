@@ -5,12 +5,17 @@ using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.IAM.Application.Internal.CommandServices;
+using FULLSTACKFURY.EduSpace.API.IAM.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.IAM.Application.Internal.QueryServices;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Repository;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL;
-using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.ACL.Services;
+using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
+using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL.Services;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Pipeline.Middleware.Components;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Configuration;
+using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.CommandServices;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.OutboundServices.ACL;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Repositories;
@@ -42,6 +47,20 @@ Console.WriteLine(connectionString);
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policyBuilder => policyBuilder
+            .WithOrigins("http://localhost:5173") // Your frontend URL
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials());
+});
+
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
     c =>
@@ -64,6 +83,29 @@ builder.Services.AddSwaggerGen(
                     Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
                 }
             });
+        c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter token into field",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+        c.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Id = "Bearer",
+                        Type = ReferenceType.SecurityScheme
+                    }
+                },
+                Array.Empty<string>()
+            }
+        });
         c.EnableAnnotations();
     });
 
@@ -73,6 +115,9 @@ if (connectionString == null)
 {
     throw new InvalidOperationException("Connection string not found.");
 }
+
+
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -105,10 +150,10 @@ builder.Services.AddScoped<IAdminProfileCommandService, AdminProfileCommandServi
 builder.Services.AddScoped<ITeacherProfileCommandService, TeacherProfileCommandService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 builder.Services.AddScoped<IExternalIamService, ExternalIamService>();
-builder.Services.AddScoped<IAccountCommandService, AccountCommandService>();
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
+
+
+
 builder.Services.AddScoped<IReservationCommandService, ReservationCommandService>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IExternalProfileService, ExternalProfileServices>();
@@ -116,8 +161,19 @@ builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 builder.Services.AddScoped<IReservationQueryService, ReservationQueryService>();
 
 
+//Token Settings Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
 
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountCommandService, AccountCommandService>();
+builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
 
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 
 
@@ -138,9 +194,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
+// app.UseRouting();
+
+// Use the CORS policy
+app.UseCors("AllowFrontend");
+
+
+
 
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 
