@@ -90,7 +90,7 @@ public class ClassroomsController(IClassroomQueryService classroomQueryService, 
         return Ok(classroomResources);        
     }
     
-    [HttpGet("by-teacher/{id:int}")]
+    [HttpGet("teacher/{id:int}")]
     [SwaggerOperation(
         Summary = "Get classrooms by teacher ID",
         Description = "Get classrooms by teacher ID",
