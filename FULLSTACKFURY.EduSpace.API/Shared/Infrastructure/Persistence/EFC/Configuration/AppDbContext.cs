@@ -4,7 +4,9 @@ using FULLSTACKFURY.EduSpace.API.EventsScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.X509.Qualified;
 
@@ -71,7 +73,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Account>().HasKey(a => a.Id);
         builder.Entity<Account>().Property(a => a.Id).IsRequired().ValueGeneratedOnAdd();
         builder.Entity<Account>().Property(a => a.Username).IsRequired();
-        builder.Entity<Account>().Property(a => a.Password).IsRequired();
+        builder.Entity<Account>().Property(a => a.PasswordHash).IsRequired();
         builder.Entity<Account>().Property(a => a.Role).IsRequired();
         
         
@@ -121,6 +123,60 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                 pa.Property(p => p.SalaryBonus).HasColumnName("SalaryBonus").IsRequired();
             });
         
+        
+
+        
+        builder.Entity<Classroom>().HasKey(c => c.Id);
+        builder.Entity<Classroom>().Property(c => c.Name).IsRequired();
+        builder.Entity<Classroom>().Property(c => c.Description).IsRequired();
+        builder.Entity<Classroom>().OwnsOne(r => r.TeacherId,
+            ti =>
+            {
+                ti.WithOwner().HasForeignKey("Id");
+                ti.Property(r => r.TeacherIdentifier).HasColumnName("TeacherId");
+            });
+        
+        builder.Entity<Resource>().HasKey(r => r.Id);
+        builder.Entity<Resource>().Property(r => r.Name).IsRequired();
+        builder.Entity<Resource>().Property(r => r.KindOfResource).IsRequired();
+        builder.Entity<Resource>()
+            .HasOne(r => r.Classroom)
+            .WithMany(c => c.Resources)
+            .HasForeignKey(r => r.ClassroomId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+                
+        builder.Entity<SharedArea>().HasKey(sa => sa.Id);
+        builder.Entity<SharedArea>().Property(sa => sa.Name).IsRequired();
+        builder.Entity<SharedArea>().Property(sa => sa.Capacity).IsRequired();
+        builder.Entity<SharedArea>().Property(sa => sa.Description).IsRequired();
+        
+        
+        //RESERVATION SCHEDULING BC 
+        
+        builder.Entity<Meeting>().HasKey(m => m.Id);
+        builder.Entity<Meeting>().Property(m => m.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.Entity<Meeting>().Property(m => m.Title).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.Description).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.Date).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.StartTime).IsRequired();
+        builder.Entity<Meeting>().Property(m => m.EndTime).IsRequired();
+        
+        builder.Entity<Meeting>().OwnsOne(m => m.AdministratorId,
+           ai =>
+           {
+               ai.WithOwner().HasForeignKey("Id");
+               ai.Property(r => r.AdministratorIdentifier).HasColumnName("TeacherId");
+           });
+        
+        
+        builder.Entity<Meeting>().OwnsOne(m => m.ClassroomId,
+    ci =>
+    {
+        ci.WithOwner().HasForeignKey("Id");
+        ci.Property(r => r.ClassroomIdentifier).HasColumnName("ClassroomId");
+    });
+
         
         
         base.OnModelCreating(builder);

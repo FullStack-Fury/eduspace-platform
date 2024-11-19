@@ -9,7 +9,7 @@ public static class CreateTeacherProfileCommandFromResourceAssembler
     {
         return new CreateTeacherProfileCommand(resource.FirstName, resource.LastName
             , resource.Email, resource.Dni,
-            resource.Address, resource.Phone, resource.AccountId
-            , resource.Username, resource.Password, resource.Role);
+            resource.Address, resource.Phone, resource.AdministratorId
+            , resource.Username, resource.Password);
     }
 }

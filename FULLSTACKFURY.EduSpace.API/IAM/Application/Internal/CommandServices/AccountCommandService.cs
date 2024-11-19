@@ -1,3 +1,4 @@
+using FULLSTACKFURY.EduSpace.API.IAM.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Commands;
 using FULLSTACKFURY.EduSpace.API.IAM.Domain.Repository;
@@ -6,14 +7,17 @@ using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 
 namespace FULLSTACKFURY.EduSpace.API.IAM.Application.Internal.CommandServices;
 
-public class AccountCommandService (IUnitOfWork unitOfWork, IAccountRepository accountRepository)
+public class AccountCommandService (IUnitOfWork unitOfWork, IAccountRepository accountRepository
+    , ITokenService tokenService, IHashingService hashingService)
 :IAccountCommandService
 {
     public async Task Handle(SignUpCommand command)
     {
         if (accountRepository.ExistsByUsername(command.Username))
             throw new Exception($"Username {command.Username} is already taken");
-        var account = new Account(command.Username, command.Password, command.Role);
+        
+        var hashedPassword = hashingService.HashPassword(command.Password);
+        var account = new Account(command.Username, hashedPassword, command.Role);
 
         try
         {
@@ -27,11 +31,16 @@ public class AccountCommandService (IUnitOfWork unitOfWork, IAccountRepository a
     }
 
     //TODO: This should return a token
-    public async Task<Account> Handle(SignInCommand command)
+    public async Task<(Account account, string token)> Handle(SignInCommand command)
     {
+        Console.WriteLine("AAAAAAAAAAAAAA");
+        Console.WriteLine(accountRepository.ExistsByUsername(command.Username));
         var account = await accountRepository.FindByUsername(command.Username);
         if (account is null) throw new Exception("Invalid username or password");
+        if(!hashingService.VerifyPassword(command.Password, account.PasswordHash))
+            throw new Exception("Invalid username or password");
+        var token = tokenService.GenerateToken(account);
 
-        return account;
+        return (account, token);
     }
 }
