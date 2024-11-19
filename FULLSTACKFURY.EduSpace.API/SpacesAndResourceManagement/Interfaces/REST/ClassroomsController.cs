@@ -90,7 +90,7 @@ public class ClassroomsController(IClassroomQueryService classroomQueryService, 
         return Ok(classroomResources);        
     }
     
-    [HttpGet("teacher/{id:int}")]
+    [HttpGet("teachers/{teacherId:int}")]
     [SwaggerOperation(
         Summary = "Get classrooms by teacher ID",
         Description = "Get classrooms by teacher ID",
@@ -98,9 +98,9 @@ public class ClassroomsController(IClassroomQueryService classroomQueryService, 
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Classrooms retrieved successfully", typeof(IEnumerable<ClassroomResource>))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "No classrooms found for the given teacher ID")]
-    public async Task<IActionResult> GetClassroomsByTeacherId(int id)
+    public async Task<IActionResult> GetClassroomsByTeacherId(int teacherId)
     {
-        var getClassroomByTeacherIdQuery = new GetAllClassroomsByTeacherIdQuery(id);
+        var getClassroomByTeacherIdQuery = new GetAllClassroomsByTeacherIdQuery(teacherId);
         var classrooms = await classroomQueryService.Handle(getClassroomByTeacherIdQuery);
         var classroomResources = classrooms.Select(ClassroomResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(classroomResources);
