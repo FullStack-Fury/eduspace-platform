@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/")]
 [Produces(MediaTypeNames.Application.Json)]
 public class MeetingsController : ControllerBase
 {
@@ -23,23 +23,23 @@ public class MeetingsController : ControllerBase
         this.meetingQueryService = meetingQueryService;
     }
     
-    [HttpPost]
+    [HttpPost("administrators/{administratorId:int}/classrooms/{classroomId:int}/meetings")]
     [SwaggerOperation(
         Summary = "Creates a meeting",
         Description = "Creates a new meeting with specified details",
         OperationId = "CreateMeeting"
     )]
     [SwaggerResponse(201, "The meeting was created", typeof(MeetingResource))]
-    public async Task<IActionResult> CreateMeeting([FromBody] CreateMeetingResource resource)
+    public async Task<IActionResult> CreateMeeting([FromRoute] int administratorId , [FromRoute] int classroomId ,[FromBody] CreateMeetingResource resource)
     {
-        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var createMeetingCommand = CreateMeetingCommandFromResourceAssembler.ToCommandFromResource(administratorId, classroomId, resource);
         var meeting = await meetingCommandService.Handle(createMeetingCommand);
         if (meeting is null) return BadRequest("Failed to create meeting.");
         var meetingResource = MeetingResourceFromEntityAssembler.ToResourceFromEntity(meeting);
         return Ok(meetingResource);
     }
     
-    [HttpGet]
+    [HttpGet("meetings")]
     [SwaggerOperation(
         Summary = "Gets all meetings",
         Description = "Retrieves a list of all meetings",
@@ -54,7 +54,7 @@ public class MeetingsController : ControllerBase
     }
  
 
-    [HttpPut("{id:int}")]
+    [HttpPut("meetings/{id:int}")]
     [SwaggerOperation(
         Summary = "Updates a meeting",
         Description = "Updates a meeting by its ID with the provided details",
@@ -86,7 +86,7 @@ public class MeetingsController : ControllerBase
         }
     }
     
-    [HttpDelete("{id:int}")]
+    [HttpDelete("meetings/{id:int}")]
     [SwaggerOperation(
         Summary = "Deletes a meeting",
         Description = "Deletes the meeting specified by its ID",
