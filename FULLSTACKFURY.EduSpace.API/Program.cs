@@ -136,7 +136,26 @@ builder.Services.AddScoped<IReportQueryService, ReportQueryService>();  // Servi
 builder.Services.AddScoped<IReportRepository, ReportRepository>();  // Repository for interacting with the Report database
 
 
+//Reservation Scheduling
 
+builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
+builder.Services.AddScoped<IMeetingCommandService, MeetingCommandService>();
+builder.Services.AddScoped<IMeetingQueryService, MeetingQueryService>();
+builder.Services.AddScoped<IExternalClassroomService, ExternalClassroomServices>();
+builder.Services.AddScoped<IRExternalProfileService, RExternalProfileServices>();
+
+// Spaces and Resource BC
+// Classrooms
+builder.Services.AddScoped<FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL.IExternalProfileService, ExternalProfileService>();
+builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
+builder.Services.AddScoped<IClassroomCommandService, ClassroomCommandService>();
+builder.Services.AddScoped<IClassroomQueryService, ClassroomQueryService>();
+// Resources
+builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
+builder.Services.AddScoped<IResourceCommandService, ResourceCommandService>();
+builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
+
+builder.Services.AddScoped<ISpacesAndResourceManagementFacade, SpacesAndResourceManagementFacade>();
 
 
 
