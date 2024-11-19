@@ -5,10 +5,12 @@ using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Entities;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.X509.Qualified;
+using TeacherId = FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects.TeacherId;
 
 namespace FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -136,6 +138,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<Meeting>().Property(m => m.Title).IsRequired();
         builder.Entity<Meeting>().Property(m => m.Description).IsRequired();
         builder.Entity<Meeting>().Property(m => m.Date).IsRequired();
+        //Date conversion to fit the values from the db
+        builder.Entity<Meeting>().Property(m => m.Date)
+            .HasConversion(v => v.ToDateTime(TimeOnly.MinValue),
+                v => DateOnly.FromDateTime(v));
+        
+        builder.Entity<Meeting>()
+            .Property(m => m.EndTime)
+            .HasConversion(
+                v => v.ToTimeSpan(),                 // Convert TimeOnly to TimeSpan for the database
+                v => TimeOnly.FromTimeSpan(v));  
+        
+        builder.Entity<Meeting>()
+            .Property(m => m.StartTime)
+            .HasConversion(
+                v => v.ToTimeSpan(),                 // Convert TimeOnly to TimeSpan for the database
+                v => TimeOnly.FromTimeSpan(v));  
+        
+        
         builder.Entity<Meeting>().Property(m => m.StartTime).IsRequired();
         builder.Entity<Meeting>().Property(m => m.EndTime).IsRequired();
         
@@ -153,7 +173,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         ci.WithOwner().HasForeignKey("Id");
         ci.Property(r => r.ClassroomIdentifier).HasColumnName("ClassroomId");
     });
+        
 
+
+        builder.Entity<MeetingSession>()
+            .HasKey(ms => new { ms.TeacherId, ms.MeetingId });
+        
+
+        builder.Entity<Meeting>().HasMany(m => m.MeetingParticipants);
         
         
         base.OnModelCreating(builder);
