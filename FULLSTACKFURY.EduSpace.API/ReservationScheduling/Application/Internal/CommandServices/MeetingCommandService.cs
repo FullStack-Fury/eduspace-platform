@@ -1,7 +1,6 @@
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Commands;
-using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
@@ -11,7 +10,7 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.
 
 public class MeetingCommandService (IMeetingRepository meetingRepository
     , IUnitOfWork unitOfWork, 
-    IExternalProfileService externalProfileService, 
+    IRExternalProfileService externalProfileService, 
     IExternalClassroomService externalClassroomService) : IMeetingCommandService
 {
     public async Task<Meeting?> Handle(CreateMeetingCommand command)

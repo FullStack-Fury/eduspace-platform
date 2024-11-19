@@ -23,6 +23,12 @@ using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.ACL;
 using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.ACL.Services;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.CommandServices;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.QueryServices;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Infrastructure.Persistence.EFC;
 using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using FULLSTACKFURY.EduSpace.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -32,6 +38,8 @@ using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.Outboun
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Infrastructure.Persistence.EFC.Repositories;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.ACL;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.ACL.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using IExternalProfileService = FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.OutboundServices.IExternalProfileService;
@@ -167,6 +175,14 @@ builder.Services.AddScoped<IExternalProfileService, ExternalProfileServices>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 builder.Services.AddScoped<IReservationQueryService, ReservationQueryService>();
 
+//Reservation Scheduling
+
+builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
+builder.Services.AddScoped<IMeetingCommandService, MeetingCommandService>();
+builder.Services.AddScoped<IMeetingQueryService, MeetingQueryService>();
+builder.Services.AddScoped<IExternalClassroomService, ExternalClassroomServices>();
+builder.Services.AddScoped<IRExternalProfileService, RExternalProfileServices>();
+
 // Spaces and Resource BC
 // Classrooms
 builder.Services.AddScoped<FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL.IExternalProfileService, ExternalProfileService>();
@@ -177,6 +193,9 @@ builder.Services.AddScoped<IClassroomQueryService, ClassroomQueryService>();
 builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
 builder.Services.AddScoped<IResourceCommandService, ResourceCommandService>();
 builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
+
+builder.Services.AddScoped<ISpacesAndResourceManagementFacade, SpacesAndResourceManagementFacade>();
+
 
 // Shared Areas
 builder.Services.AddScoped<ISharedAreaRepository, SharedAreaRepository>();

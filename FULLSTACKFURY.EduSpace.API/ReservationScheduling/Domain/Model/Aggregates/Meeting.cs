@@ -5,7 +5,7 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregat
 
 public class Meeting
 {
-    public int MeetingId { get; private set; }
+    public int Id { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public DateOnly Date { get; private set; }
@@ -42,7 +42,6 @@ public class Meeting
 
     public Meeting(UpdateMeetingCommand command)
     {
-        MeetingId = command.MeetingId;
         Description = command.Description;
         Date = command.Date;
         StartTime = command.Start;
