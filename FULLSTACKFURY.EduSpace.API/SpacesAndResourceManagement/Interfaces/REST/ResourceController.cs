@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available Resource Endpoints")]
 public class ResourceController(IResourceQueryService resourceQueryService, IResourceCommandService resourceCommandService): ControllerBase
@@ -25,7 +25,7 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
     /// <returns>
     /// The <see cref="ResourceResource"/> resource if found, otherwise returns <see cref="NotFoundResult"/>
     /// </returns>
-    [HttpGet("{id:int}")]
+    [HttpGet("classrooms/resources/{resourceId:int}")]
     [SwaggerOperation(
         Summary = "Get a resource by its ID",
         Description = "Get a resource by its ID",
@@ -33,7 +33,7 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "The resource was successfully retrieved", typeof(ResourceResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The resource was not found")]
-    public async Task<IActionResult> GetResourceById(int id)
+    public async Task<IActionResult> GetResourceById([FromRoute] int id)
     {
         var getResourceByIdQuery = new GetResourceByIdQuery(id);
         var resource = await resourceQueryService.Handle(getResourceByIdQuery);
@@ -51,18 +51,17 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
     /// <returns>
     /// The <see cref="ResourceResource"/> resource if created, otherwise returns <see cref="BadRequestResult"/>
     /// </returns>
-    [HttpPost]
+    [HttpPost("classrooms/{classroomId:int}/resources")]
     [SwaggerOperation(
-        Summary = "Create a new resource",
+        Summary = "Create a new resource",  
         Description = "Create a new resource",
         OperationId = "CreateResource"
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The resource was successfully created", typeof(ResourceResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The resource was not created")]
-
-    public async Task<IActionResult> CreateResource([FromBody] CreateResourceResource createResource)
+    public async Task<IActionResult> CreateResource([FromRoute] int classroomId , [FromBody] CreateResourceResource createResource)
     {
-        var createResourceCommand = CreateResourceCommandFromResourceAssembler.ToCommandFromResource(createResource);
+        var createResourceCommand = CreateResourceCommandFromResourceAssembler.ToCommandFromResource(classroomId, createResource);
         var resource = await resourceCommandService.Handle(createResourceCommand);
         if (resource is null) return BadRequest();
         var resourceResource = ResourceResourceFromEntityAssembler.ToResourceFromEntity(resource);
@@ -75,7 +74,7 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
     /// <returns>
     /// The list of <see cref="ResourceResource"/> resources
     /// </returns>
-    [HttpGet]
+    [HttpGet("classrooms/resources")]
     [SwaggerOperation(
         Summary = "Get all resources",
         Description = "Get all resources",
@@ -90,7 +89,7 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
         return Ok(resourceResources);
     }
     
-        [HttpPut("{id:int}")]
+        [HttpPut("classrooms/resources/{id:int}")]
     [SwaggerOperation(
         Summary = "Updates a resource",
         Description = "Updates a resource by its ID with the provided details",
@@ -122,7 +121,7 @@ public class ResourceController(IResourceQueryService resourceQueryService, IRes
         }
     }
     
-    [HttpDelete("{id:int}")]
+    [HttpDelete("classrooms/resources/{id:int}")]
     [SwaggerOperation(
         Summary = "Deletes a resource",
         Description = "Deletes the resource specified by its ID",
