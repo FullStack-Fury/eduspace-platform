@@ -13,11 +13,17 @@ using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL;
 using FULLSTACKFURY.EduSpace.API.IAM.Interfaces.ACL.Services;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Hashing.BCrypt.Services;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Application.Internal.CommandServices;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Application.Internal.QueryServices;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Repositories;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Services;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Pipeline.Middleware.Components;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Configuration;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.CommandServices;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.OutboundServices.ACL;
+using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.QueryServices;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
@@ -48,10 +54,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Environment variables//
 
-string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
-string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
-string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "eduspace";
+string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
+string user = Environment.GetEnvironmentVariable("DB_USER") ?? "";
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
+string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "";
 
 string connectionString = $"server={server};user={user};password={password};database={database}";
 
@@ -161,19 +167,27 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAdminProfileRepository, AdminProfileRepository>();
 builder.Services.AddScoped<ITeacherProfileRepository, TeacherProfileRepository>();
 builder.Services.AddScoped<IAdminProfileCommandService, AdminProfileCommandService>();
+builder.Services.AddScoped<IAdminProfileQueryService, AdminProfileQueryService>();
 // builder.Services.AddScoped<IAdminProfileQueryService, AdminProfileQueryService>();
 builder.Services.AddScoped<ITeacherProfileCommandService, TeacherProfileCommandService>();
+builder.Services.AddScoped<ITeacherQueryService, TeacherProfileQueryService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 builder.Services.AddScoped<IExternalIamService, ExternalIamService>();
+builder.Services.AddScoped<IAccountCommandService, AccountCommandService>();
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 
-
-
-
+builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
 builder.Services.AddScoped<IReservationCommandService, ReservationCommandService>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IExternalProfileService, ExternalProfileServices>();
 builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 builder.Services.AddScoped<IReservationQueryService, ReservationQueryService>();
+
+builder.Services.AddScoped<IPayrollCommandService, PayrollCommandService>();
+builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
+builder.Services.AddScoped<IPayrollQueryService, PayrollQueryService>();
+
+
 
 //Reservation Scheduling
 
@@ -241,8 +255,7 @@ if (app.Environment.IsDevelopment())
 // Use the CORS policy
 app.UseCors("AllowFrontend");
 
-
-
+app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

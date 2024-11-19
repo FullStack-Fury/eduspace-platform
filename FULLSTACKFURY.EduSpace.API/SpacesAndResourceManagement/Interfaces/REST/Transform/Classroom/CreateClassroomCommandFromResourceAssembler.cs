@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Classroom;
 
-namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.Classroom;
 
 /// <summary>
 /// Assembler class to transform CreateClassroomResource to CreateClassroomCommand
@@ -17,8 +17,8 @@ public class CreateClassroomCommandFromResourceAssembler
     /// <returns>
     /// The resulting <see cref="CreateClassroomCommand"/> command with the values from the resource
     /// </returns>
-    public static CreateClassroomCommand ToCommandFromResource(CreateClassroomResource resource)
+    public static CreateClassroomCommand ToCommandFromResource(int teacherId, CreateClassroomResource resource)
     {
-        return new CreateClassroomCommand(resource.Name, resource.Description, resource.TeacherId);
+        return new CreateClassroomCommand(resource.Name, resource.Description, teacherId);
     }
 }

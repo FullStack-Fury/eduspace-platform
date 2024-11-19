@@ -1,63 +1,38 @@
-﻿using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
-using System;
+﻿using FULLSTACKFURY.EduSpace.API.IAM.Domain.Model.Aggregates;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.ValueObjects;
 
-namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates
+namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Aggregates;
+
+/// <summary>
+/// Payroll aggregate root entity.
+/// </summary>
+/// <remarks>
+/// This class is used to represent payroll details for a teacher in the application.
+/// </remarks>
+///
+
+public partial class Payroll
 {
-    public class Payroll
+    public int Id { get; private set; }
+    public int TeacherId { get; private set; }
+    public SalaryAmount SalaryAmount { get; private set; }
+    public PayrollAdjustment PayrollAdjustment { get; private set; }
+    public decimal SalaryNet { get; private set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Payroll"/> class based on the specified command.
+    /// </summary>
+    /// <param name="command">
+    /// The <see cref="CreatePayrollCommand"/> containing payroll details to initialize this instance.
+    /// </param>
+   
+   public Payroll() { }
+    public Payroll(CreatePayrollCommand command)
     {
-        public int Id { get; private set; }
-        public int TeacherId { get; private set; }
-        public Teacher Teacher { get; private set; }  // Relación con Teacher
-
-        public decimal SalaryAmount { get; private set; }  
-        public decimal PensionContribution { get; private set; }  
-        public decimal SalaryBonus { get; private set; }  
-        public decimal OtherDeductions { get; private set; }  
-        public decimal SalaryNet { get; private set; }  // Propiedad calculada
-        public DateTime DatePayment { get; private set; }
-        public string PaymentMethod { get; private set; }
-        public string Account { get; private set; }
-        public string Observation { get; private set; }
-
-        // Constructor sin parámetros para EF Core
-        private Payroll() { }
-
-        public Payroll(int teacherId, decimal salaryAmount, decimal pensionContribution, decimal salaryBonus, decimal otherDeductions,
-                       DateTime datePayment, string paymentMethod, string account, string observation)
-        {
-            TeacherId = teacherId;
-            SalaryAmount = salaryAmount;
-            PensionContribution = pensionContribution;
-            SalaryBonus = salaryBonus;
-            OtherDeductions = otherDeductions;
-            DatePayment = datePayment;
-            PaymentMethod = paymentMethod;
-            Account = account;
-            Observation = observation;
-
-            // Calcular SalaryNet
-            CalculateNetSalary();
-        }
-
-        public void UpdatePayroll(decimal salaryAmount, decimal pensionContribution, decimal salaryBonus, decimal otherDeductions,
-                                  DateTime datePayment, string paymentMethod, string account, string observation)
-        {
-            SalaryAmount = salaryAmount;
-            PensionContribution = pensionContribution;
-            SalaryBonus = salaryBonus;
-            OtherDeductions = otherDeductions;
-            DatePayment = datePayment;
-            PaymentMethod = paymentMethod;
-            Account = account;
-            Observation = observation;
-
-            // Calcular SalaryNet
-            CalculateNetSalary();
-        }
-
-        private void CalculateNetSalary()
-        {
-            SalaryNet = SalaryAmount + SalaryBonus - PensionContribution - OtherDeductions;
-        }
+        TeacherId = command.TeacherId;
+        SalaryAmount = new SalaryAmount(command.SalaryAmount);
+        PayrollAdjustment = new PayrollAdjustment(CalculatePensionContribution(command.SalaryAmount), command.SalaryBonus);
+        SalaryNet = CalculateSalaryNet(command.SalaryAmount,PayrollAdjustment.PensionContribution, command.SalaryBonus);
     }
 }

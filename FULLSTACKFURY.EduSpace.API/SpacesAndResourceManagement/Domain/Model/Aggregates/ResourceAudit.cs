@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using EntityFrameworkCore.CreatedUpdatedDate.Contracts;
 
-namespace FULLSTACKFURY.SpacesAndResourceManagement.Domain.Model.Aggregates;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
 public partial class ResourceAudit : IEntityWithCreatedUpdatedDate
 {

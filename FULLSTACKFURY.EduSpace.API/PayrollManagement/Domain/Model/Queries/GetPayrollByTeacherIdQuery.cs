@@ -1,12 +1,3 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Queries
-{
-    public class GetPayrollByTeacherIdQuery
-    {
-        public int TeacherId { get; }
+﻿namespace FULLSTACKFURY.EduSpace.API.PayrollManagement.Domain.Model.Queries;
 
-        public GetPayrollByTeacherIdQuery(int teacherId)
-        {
-            TeacherId = teacherId;
-        }
-    }
-}
+public record GetPayrollByTeacherIdQuery(int TeacherId);

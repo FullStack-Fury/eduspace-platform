@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Model.Queries;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.REST.Resources;
 using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.REST.Transform;
@@ -7,9 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 namespace FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/administrator-profiles")]
 [Produces(MediaTypeNames.Application.Json)]
-public class AdministratorProfilesController(IAdminProfileCommandService profileCommandService)
+public class AdministratorProfilesController(IAdminProfileCommandService profileCommandService, 
+    IAdminProfileQueryService profileQueryService)
 : ControllerBase
 {
     [HttpPost]
@@ -23,5 +25,14 @@ public class AdministratorProfilesController(IAdminProfileCommandService profile
         var adminProfileResource = AdminProfileResourceFromEntityAssembler.ToResourceFromEntity(adminProfile);
         
         return Ok(adminProfileResource); 
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAdministratorProfiles()
+    {
+        var administratorProfiles = await profileQueryService.Handle(new GetAllAdministratorsProfileQuery());
+        var administratorResources =
+            administratorProfiles.Select(AdminProfileResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(administratorResources);
     }
 }

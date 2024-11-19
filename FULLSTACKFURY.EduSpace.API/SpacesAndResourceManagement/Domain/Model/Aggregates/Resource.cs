@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Resource;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
 
@@ -44,5 +44,31 @@ public class Resource
         Name = command.Name;
         KindOfResource = command.KindOfResource;
         ClassroomId = command.ClassroomId;
+    }
+    
+    public Resource(UpdateResourceCommand command)
+    {
+        Id = command.Id;
+        Name = command.Name;
+        KindOfResource = command.KindOfResource;
+        ClassroomId = command.ClassroomId;
+    }
+    
+    public void UpdateName(string name)
+    {
+        if (!string.IsNullOrEmpty(name))
+            Name = name;
+    }
+    
+    public void UpdateKindOfResource(string kindOfResource)
+    {
+        if (!string.IsNullOrEmpty(kindOfResource))
+            KindOfResource = kindOfResource;
+    }
+    
+    public void UpdateClassroomId(int classroomId)
+    {
+        if (classroomId > 0 && classroomId != ClassroomId)
+            ClassroomId = classroomId;
     }
 }

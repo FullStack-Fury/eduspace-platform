@@ -8,4 +8,5 @@ public interface IMeetingCommandService
     Task<Meeting?> Handle (CreateMeetingCommand command);
     Task Handle(DeleteMeetingCommand command); 
     Task<Meeting?> Handle(UpdateMeetingCommand command);
+    Task Handle(AddTeacherToMeetingCommand command);
 }
