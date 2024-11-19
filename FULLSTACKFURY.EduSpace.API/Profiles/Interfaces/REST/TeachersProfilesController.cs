@@ -34,4 +34,13 @@ public class TeachersProfilesController(ITeacherProfileCommandService teacherPro
             = teacherProfiles.Select(TeacherProfileResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(teacherResources);
     }
+
+    [HttpGet("{teacherId:int}")]
+    public async Task<IActionResult> GetTeacherProfileById([FromRoute] int teacherId)
+    {
+        var teacherProfile = await teacherQueryService.Handle(new GetTeacherProfileByIdQuery(teacherId));
+        if (teacherProfile is null) return NotFound();
+        var teacherResource = TeacherProfileResourceFromEntityAssembler.ToResourceFromEntity(teacherProfile);
+        return Ok(teacherResource);
+    }
 }

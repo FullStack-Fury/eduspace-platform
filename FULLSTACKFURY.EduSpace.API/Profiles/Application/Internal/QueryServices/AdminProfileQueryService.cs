@@ -11,4 +11,9 @@ public class AdminProfileQueryService(IAdminProfileRepository adminProfileReposi
     {
         return await adminProfileRepository.ListAsync();
     }
+
+    public async Task<AdminProfile?> Handle(GetAdministratorProfileByIdQuery query)
+    {
+        return await adminProfileRepository.FindByIdAsync(query.ProfileId);
+    }
 }

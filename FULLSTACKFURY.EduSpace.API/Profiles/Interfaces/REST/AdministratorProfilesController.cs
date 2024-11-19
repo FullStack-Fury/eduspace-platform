@@ -35,4 +35,13 @@ public class AdministratorProfilesController(IAdminProfileCommandService profile
             administratorProfiles.Select(AdminProfileResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(administratorResources);
     }
+    
+    [HttpGet("{administratorId:int}")]
+    public async Task<IActionResult> GetTeacherProfileById([FromRoute] int administratorId)
+    {
+        var administratorProfile = await profileQueryService.Handle(new GetAdministratorProfileByIdQuery(administratorId));
+        if (administratorProfile is null) return NotFound();
+        var administratorResource = AdminProfileResourceFromEntityAssembler.ToResourceFromEntity(administratorProfile);
+        return Ok(administratorResource);
+    }
 }

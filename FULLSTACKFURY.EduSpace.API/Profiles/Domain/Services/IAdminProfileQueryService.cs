@@ -6,4 +6,5 @@ namespace FULLSTACKFURY.EduSpace.API.Profiles.Domain.Services;
 public interface IAdminProfileQueryService
 {
     Task<IEnumerable<AdminProfile>> Handle(GetAllAdministratorsProfileQuery query);
+    Task<AdminProfile?> Handle(GetAdministratorProfileByIdQuery query);
 }
