@@ -19,4 +19,4 @@
 /// The date when the payroll is issued.
 /// </param>
 
-public record CreatePayrollResource( int TeacherId, decimal SalaryAmount, decimal PensionContribution, decimal SalaryBonus);
+public record CreatePayrollResource(decimal SalaryAmount, decimal PensionContribution, decimal SalaryBonus);

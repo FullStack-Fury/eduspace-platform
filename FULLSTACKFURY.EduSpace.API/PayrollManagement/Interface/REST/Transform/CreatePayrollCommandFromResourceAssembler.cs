@@ -17,8 +17,8 @@ public static class CreatePayrollCommandFromResourceAssembler
     /// <returns>
     /// The resulting <see cref="CreatePayrollCommand"/> command with the values from the resource
     /// </returns>
-    public static CreatePayrollCommand ToCommand(CreatePayrollResource resource)
+    public static CreatePayrollCommand ToCommand(int teacherId, CreatePayrollResource resource)
     {
-        return new CreatePayrollCommand(resource.TeacherId, resource.SalaryAmount, resource.SalaryBonus);
+        return new CreatePayrollCommand(teacherId, resource.SalaryAmount, resource.SalaryBonus);
     }
 }

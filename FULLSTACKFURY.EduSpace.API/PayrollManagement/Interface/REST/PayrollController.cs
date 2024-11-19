@@ -24,7 +24,7 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     /// <returns>
     /// The <see cref="PayrollResource"/> if created successfully; otherwise, <see cref="BadRequestResult"/>.
     /// </returns>
-    [HttpPost]
+    [HttpPost("teachers{teacherId:int}")]
     [SwaggerOperation(
         Summary = "Creates a payroll entry",
         Description = "Creates a payroll entry for a specific teacher",
@@ -32,9 +32,9 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     )]
     [SwaggerResponse(201, "The payroll entry was created", typeof(PayrollResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The payroll entry was not created")]
-    public async Task<IActionResult> CreatePayroll([FromBody] CreatePayrollResource resource)
+    public async Task<IActionResult> CreatePayroll([FromRoute] int teacherId ,[FromBody] CreatePayrollResource resource)
     {
-        var createPayrollCommand = CreatePayrollCommandFromResourceAssembler.ToCommand(resource);
+        var createPayrollCommand = CreatePayrollCommandFromResourceAssembler.ToCommand(teacherId, resource);
         var payroll = await payrollCommandService.Handle(createPayrollCommand);
        
         if (payroll is null) return BadRequest();
