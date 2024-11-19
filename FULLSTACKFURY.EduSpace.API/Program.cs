@@ -18,6 +18,7 @@ using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Configuration;
 using FULLSTACKFURY.EduSpace.API.IAM.Infrastructure.Toknes.JWT.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.CommandServices;
 using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.OutboundServices.ACL;
+using FULLSTACKFURY.EduSpace.API.Profiles.Application.Internal.QueryServices;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.Profiles.Domain.Services;
 using FULLSTACKFURY.EduSpace.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
@@ -161,8 +162,10 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IAdminProfileRepository, AdminProfileRepository>();
 builder.Services.AddScoped<ITeacherProfileRepository, TeacherProfileRepository>();
 builder.Services.AddScoped<IAdminProfileCommandService, AdminProfileCommandService>();
+builder.Services.AddScoped<IAdminProfileQueryService, AdminProfileQueryService>();
 // builder.Services.AddScoped<IAdminProfileQueryService, AdminProfileQueryService>();
 builder.Services.AddScoped<ITeacherProfileCommandService, TeacherProfileCommandService>();
+builder.Services.AddScoped<ITeacherQueryService, TeacherProfileQueryService>();
 builder.Services.AddScoped<IIamContextFacade, IamContextFacade>();
 builder.Services.AddScoped<IExternalIamService, ExternalIamService>();
 

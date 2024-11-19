@@ -9,11 +9,6 @@ public record ProfileName
 
     public ProfileName(string firstName, string lastName)
     {
-        if(firstName.Length < 2)
-            throw new ArgumentException("First name must be at least 2 characters long", nameof(FirstName));
-        if(lastName.Length < 5)
-            throw new ArgumentException("Last name must be at least 5 characters long", nameof(LastName));
-        
         FirstName = firstName;
         LastName = lastName;
     }
