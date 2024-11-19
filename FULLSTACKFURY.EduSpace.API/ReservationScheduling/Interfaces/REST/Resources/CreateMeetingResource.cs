@@ -7,7 +7,5 @@ public record CreateMeetingResource(
     string Description,
     DateOnly Date,
     TimeOnly Start,
-    TimeOnly End,
-    int AdministratorId,
-    int ClassroomId
+    TimeOnly End
 );

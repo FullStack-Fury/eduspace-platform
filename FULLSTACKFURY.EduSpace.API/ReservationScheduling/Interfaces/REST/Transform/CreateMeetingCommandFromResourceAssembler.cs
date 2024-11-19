@@ -5,7 +5,7 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Interfaces.REST.Trans
 
 public class CreateMeetingCommandFromResourceAssembler
 {
-    public static CreateMeetingCommand ToCommandFromResource(CreateMeetingResource resource)
+    public static CreateMeetingCommand ToCommandFromResource(int administratorId, int classroomId, CreateMeetingResource resource)
     {
         return new CreateMeetingCommand(
             resource.Title,
@@ -13,7 +13,7 @@ public class CreateMeetingCommandFromResourceAssembler
             resource.Date,
             resource.Start,
             resource.End,
-            resource.AdministratorId,
-            resource.ClassroomId);
+            administratorId,
+            classroomId);
     }
 }
