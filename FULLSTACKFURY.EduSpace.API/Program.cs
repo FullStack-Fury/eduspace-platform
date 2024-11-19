@@ -54,13 +54,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Environment variables//
 
-string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
-string user = Environment.GetEnvironmentVariable("DB_USER") ?? "";
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
-string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "";
+string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost";
+string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
+string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "eduspace";
 
-string connectionString = $"server={server};user={user};password={password};database={database}";
-
+string connectionString = $"server=eduspace.c1gic626oxoq.us-east-2.rds.amazonaws.com; user=root;password=password;database=EduSpace";
 Console.WriteLine(connectionString);
 
 
@@ -243,11 +242,9 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+
     app.UseSwagger();
     app.UseSwaggerUI();
-}
 
 
 // app.UseRouting();
