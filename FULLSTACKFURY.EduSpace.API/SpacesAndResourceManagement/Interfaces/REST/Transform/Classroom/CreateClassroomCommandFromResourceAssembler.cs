@@ -17,8 +17,8 @@ public class CreateClassroomCommandFromResourceAssembler
     /// <returns>
     /// The resulting <see cref="CreateClassroomCommand"/> command with the values from the resource
     /// </returns>
-    public static CreateClassroomCommand ToCommandFromResource(CreateClassroomResource resource)
+    public static CreateClassroomCommand ToCommandFromResource(int teacherId, CreateClassroomResource resource)
     {
-        return new CreateClassroomCommand(resource.Name, resource.Description, resource.TeacherId);
+        return new CreateClassroomCommand(resource.Name, resource.Description, teacherId);
     }
 }
