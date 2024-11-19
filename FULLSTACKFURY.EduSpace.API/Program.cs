@@ -157,6 +157,25 @@ builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
 
 builder.Services.AddScoped<ISpacesAndResourceManagementFacade, SpacesAndResourceManagementFacade>();
 
+// Shared Areas
+builder.Services.AddScoped<ISharedAreaRepository, SharedAreaRepository>();
+builder.Services.AddScoped<ISharedAreaCommandService, SharedAreaCommandService>();
+builder.Services.AddScoped<ISharedAreaQueryService, SharedAreaQueryService>();
+
+//Token Settings Configuration
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IAccountCommandService, AccountCommandService>();
+builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 
 
 var app = builder.Build();
