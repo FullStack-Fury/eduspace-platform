@@ -7,8 +7,8 @@ public record MeetingResource(
     string Title,
     string Description,
     DateOnly Date,
-    TimeOnly Start,
-    TimeOnly End,
-    AdministratorId AdministratorId,
-    ClassroomId ClassroomId
+    string Start,
+    string End,
+    int AdministratorId,
+    int ClassroomId
 );

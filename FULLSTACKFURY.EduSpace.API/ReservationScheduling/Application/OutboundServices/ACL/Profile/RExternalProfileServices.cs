@@ -2,16 +2,21 @@ using FULLSTACKFURY.EduSpace.API.Profiles.Interfaces.ACL;
 
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.OutboundServices;
 
-public class RExternalProfileServices(IProfilesContextFacade contextFacade) : IRExternalProfileService
+public class RExternalProfileServices(IProfilesContextFacade profilesContextFacade) : IRExternalProfileService
 {
+    public bool VerifyProfile(int adminProfileId)
+    {
+        return profilesContextFacade.ValidateAdminProfileIdExistence(adminProfileId);
+    }
+
     public bool ValidateTeacherExistence(int teacherId)  
     {
-        return contextFacade.ValidateTeacherProfileIdExistence(teacherId);  
+        return profilesContextFacade.ValidateTeacherProfileIdExistence(teacherId);  
     }
     
     public bool ValidateAdminIdExistence(int adminid)
     {
-        return contextFacade.ValidateAdminProfileIdExistence(adminid);
+        return profilesContextFacade.ValidateAdminProfileIdExistence(adminid);
     }
     
     public bool ValidateTeachersExistence(List<int> teacherIds)

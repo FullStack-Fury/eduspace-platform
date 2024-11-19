@@ -5,8 +5,8 @@ public record UpdateMeetingResource(
     string Title,
     string Description,
     DateOnly Date,
-    TimeOnly Start,
-    TimeOnly End,
+    string Start,
+    string End,
     int AdministratorId,
     int ClassroomId
 );

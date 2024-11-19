@@ -3,14 +3,14 @@ using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects
 
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 
-public class Meeting
+public partial class Meeting
 {
     public int Id { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public DateOnly Date { get; private set; }
-    public TimeOnly StartTime { get; private set; } 
-    public TimeOnly EndTime { get; private set; }
+    public string StartTime { get; private set; } 
+    public string EndTime { get; private set; }
     
     // public List<Teacher> Teachers { get; private set; } 
     public AdministratorId AdministratorId { get; private set; }
@@ -18,7 +18,7 @@ public class Meeting
 
     public Meeting() { }
     
-    public Meeting(string title, string description, DateOnly date, TimeOnly start, TimeOnly end, int administratorId, int classroomId)
+    public Meeting(string title, string description, DateOnly date, string start, string end, int administratorId, int classroomId)
     {
         Title = title;
         Description = description;
@@ -68,10 +68,10 @@ public class Meeting
             Date = date.Value;
     }
 
-    public void UpdateTime(TimeOnly? start, TimeOnly? end)
+    public void UpdateTime(string? start, string? end)
     {
-        if (start.HasValue) StartTime = start.Value;
-        if (end.HasValue) EndTime = end.Value;
+        if (!string.IsNullOrEmpty(start)) StartTime = start;
+        if (!string.IsNullOrEmpty(end)) EndTime = end;
     }
 
     public void UpdateAdministrator(int? adminId, Func<int, bool> validateAdmin)

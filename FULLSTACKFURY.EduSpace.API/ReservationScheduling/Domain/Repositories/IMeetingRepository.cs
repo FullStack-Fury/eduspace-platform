@@ -6,4 +6,6 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Repositories;
 public interface IMeetingRepository : IBaseRepository<Meeting>
 {
     Task<IEnumerable<Meeting>> FindAllByAdminIdAsync(int adminId);
+    Task<IEnumerable<Meeting>> FindAllByClassroomIdAsync(int classroomId);
+    Task<bool> ExistsByTitleAsync(string title);
 }

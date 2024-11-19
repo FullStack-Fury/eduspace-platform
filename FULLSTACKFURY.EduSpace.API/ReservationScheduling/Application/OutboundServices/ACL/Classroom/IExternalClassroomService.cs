@@ -2,5 +2,5 @@ namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.
 
 public interface IExternalClassroomService
 {
-    bool ValidateClassroomId(int id);
+    public bool VerifyClassroom(int classroomId);
 }

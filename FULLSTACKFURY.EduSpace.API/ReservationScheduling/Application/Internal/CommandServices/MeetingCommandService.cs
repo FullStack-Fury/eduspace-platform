@@ -8,62 +8,30 @@ using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Application.Internal.CommandServices;
 
 
-public class MeetingCommandService (IMeetingRepository meetingRepository
-    , IUnitOfWork unitOfWork, 
-    IRExternalProfileService externalProfileService, 
-    IExternalClassroomService externalClassroomService) : IMeetingCommandService
+public class MeetingCommandService (
+    IMeetingRepository meetingRepository,
+    IUnitOfWork unitOfWork, 
+    IRExternalProfileService profileService, 
+    IExternalClassroomService classroomService) : IMeetingCommandService
 {
     public async Task<Meeting?> Handle(CreateMeetingCommand command)
     {
-        // var teacherIds = command.Teachers.Select(t => t.Id).ToList();
-        // if (!externalProfileService.ValidateTeachersExistence(teacherIds))
-        //     throw new ArgumentException("One or more teachers do not exist.");
-        
-        if (!externalProfileService.ValidateAdminIdExistence(command.AdministratorId))
-            throw new ArgumentException("Admin ID does not exist.");
-        
-        if (!externalClassroomService.ValidateClassroomId(command.ClassroomId))
-            throw new ArgumentException("Classroom does not exist.");
-        
-        // Create a new Meeting object
+        if(profileService.VerifyProfile(command.AdministratorId) == false) throw new Exception("Administrator not found");
+        if (await meetingRepository.ExistsByTitleAsync(command.Title))
+            throw new Exception("Title already exists");
         var meeting = new Meeting(command);
-
-        // Add the new meeting to the repository
         await meetingRepository.AddAsync(meeting);
-
-        // Complete the transaction
         await unitOfWork.CompleteAsync();
-
         return meeting;
     }
 
-    public async Task Handle(DeleteMeetingCommand command)
+    public Task Handle(DeleteMeetingCommand command)
     {
-        var meeting = await meetingRepository.FindByIdAsync(command.MeetingId);
-        if (meeting == null) throw new ArgumentException("Meeting not found.");
-
-        meetingRepository.Remove(meeting);
-
-        await unitOfWork.CompleteAsync();
+        throw new NotImplementedException();
     }
 
-    public async Task<Meeting?> Handle(UpdateMeetingCommand command)
+    public Task<Meeting?> Handle(UpdateMeetingCommand command)
     {
-        var meeting = await meetingRepository.FindByIdAsync(command.MeetingId);
-        if (meeting == null)
-            throw new ArgumentException("Meeting not found.");
-
-        meeting.UpdateTitle(command.Title);
-        meeting.UpdateDescription(command.Description);
-        meeting.UpdateDate(command.Date);
-        meeting.UpdateTime(command.Start, command.End);
-
-        meeting.UpdateAdministrator(command.AdministratorId, externalProfileService.ValidateAdminIdExistence);
-        meeting.UpdateClassroom(command.ClassroomId, externalClassroomService.ValidateClassroomId);
-
-        meetingRepository.Update(meeting);
-        await unitOfWork.CompleteAsync();
-
-        return meeting;
+        throw new NotImplementedException();
     }
 }

@@ -8,7 +8,6 @@ public class MeetingResourceFromEntityAssembler
 {
     public static MeetingResource ToResourceFromEntity(Meeting entity)
     {
-        
         return new MeetingResource(
             entity.Id,
             entity.Title,
@@ -16,7 +15,7 @@ public class MeetingResourceFromEntityAssembler
             entity.Date,
             entity.StartTime,
             entity.EndTime,
-            entity.AdministratorId,
-            entity.ClassroomId);
+            entity.AdministratorId.AdministratorIdentifier,
+            entity.ClassroomId.ClassroomIdentifier);
     }
 }
