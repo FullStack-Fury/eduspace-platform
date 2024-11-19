@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Classroom;
 
 /// <summary>
 /// Represents the data exposed by the tutorial resource. 

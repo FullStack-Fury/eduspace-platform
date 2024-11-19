@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Classroom;
 
-namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.Classroom;
 
 /// <summary>
 /// Assembler class to transform CreateClassroomResource to CreateClassroomCommand
