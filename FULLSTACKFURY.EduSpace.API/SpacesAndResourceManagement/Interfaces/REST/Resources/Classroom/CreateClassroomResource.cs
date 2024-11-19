@@ -12,4 +12,4 @@
 /// <param name="TeacherId">
 /// The Teacher identifier of the classroom
 /// </param>
-public record CreateClassroomResource(string Name, string Description, int TeacherId);
+public record CreateClassroomResource(string Name, string Description);

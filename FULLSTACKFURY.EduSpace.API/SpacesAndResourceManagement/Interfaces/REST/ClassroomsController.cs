@@ -50,18 +50,18 @@ public class ClassroomsController(IClassroomQueryService classroomQueryService, 
     /// <returns>
     /// The <see cref="ClassroomResource"/> classroom if created, otherwise returns <see cref="BadRequestResult"/>
     /// </returns>
-    [HttpPost]
+    [HttpPost("teachers/{teacherId:int}")]
     [SwaggerOperation(
-        Summary = "Create a classroom",
+        Summary = "Create a classroom with a teacher in charge",
         Description = "Create a classroom",
         OperationId = "CreateClassroom"
     )]
     [SwaggerResponse(StatusCodes.Status201Created, "The classroom was successfully created", typeof(ClassroomResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The classroom was not created")]
         
-    public async Task<IActionResult> CreateClassroom([FromBody] CreateClassroomResource resource)
+    public async Task<IActionResult> CreateClassroom(int teacherId  , [FromBody] CreateClassroomResource resource)
     {
-        var createClassroomCommand = CreateClassroomCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var createClassroomCommand = CreateClassroomCommandFromResourceAssembler.ToCommandFromResource(teacherId, resource);
         var classroom = await classroomCommandService.Handle(createClassroomCommand);
         if (classroom is null) return BadRequest();
         var classroomResource = ClassroomResourceFromEntityAssembler.ToResourceFromEntity(classroom);
