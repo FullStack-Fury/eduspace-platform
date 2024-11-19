@@ -47,7 +47,7 @@ public class SharedAreaController(ISharedAreaQueryService sharedAreaQueryService
         var sharedArea = await sharedAreaCommandService.Handle(createSharedAreaCommand);
         if (sharedArea is null) return BadRequest();
         var sharedAreaResource = SharedAreaResourceFromEntityAssembler.ToResourceFromEntity(sharedArea);
-        return CreatedAtAction(nameof(GetSharedAreaById), new { sharedAreaId = sharedArea.Id }, sharedAreaResource);
+        return CreatedAtAction(nameof(GetSharedAreaById), new { id = sharedArea.Id }, sharedAreaResource);
     }
     
     [HttpGet]
