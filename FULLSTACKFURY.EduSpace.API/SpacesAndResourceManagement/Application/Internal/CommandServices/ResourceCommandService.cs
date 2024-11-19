@@ -1,6 +1,6 @@
 ﻿using FULLSTACKFURY.EduSpace.API.Shared.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Resource;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Repositories;
 using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
@@ -34,4 +34,30 @@ public class ResourceCommandService(
         resource.Classroom = classroom;
         return resource;
     } 
+    
+    public async Task Handle(DeleteResourceCommand command)
+    {
+        var resource = await resourceRepository.FindByIdAsync(command.ResourceId);
+        if (resource == null) throw new ArgumentException("Resource not found.");
+
+        resourceRepository.Remove(resource);
+
+        await unitOfWork.CompleteAsync();
+    }
+    
+    public async Task<Resource?> Handle(UpdateResourceCommand command)
+    {
+        var resource = await resourceRepository.FindByIdAsync(command.Id);
+        if (resource == null)
+            throw new ArgumentException("Resource not found.");
+
+        resource.UpdateName(command.Name);
+        resource.UpdateKindOfResource(command.KindOfResource);
+        resource.UpdateClassroomId(command.ClassroomId);
+
+        resourceRepository.Update(resource);
+        await unitOfWork.CompleteAsync();
+
+        return resource;
+    }
 }

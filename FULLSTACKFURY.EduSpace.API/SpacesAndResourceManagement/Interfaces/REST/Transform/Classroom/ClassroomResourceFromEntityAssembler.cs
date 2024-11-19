@@ -1,7 +1,6 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Classroom;
 
-namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.Classroom;
 
 /// <summary>
 /// Assembler class to transform Classroom to ClassroomResource
@@ -17,7 +16,7 @@ public class ClassroomResourceFromEntityAssembler
     /// <returns>
     /// The resulting <see cref="ClassroomResource"/> resource with the values from the entity
     /// </returns>
-    public static ClassroomResource ToResourceFromEntity(Classroom entity)
+    public static ClassroomResource ToResourceFromEntity(Domain.Model.Aggregates.Classroom entity)
     {
         return new ClassroomResource(entity.Id, entity.Name, entity.Description, entity.TeacherId.TeacherIdentifier);
     }

@@ -66,4 +66,25 @@ public class MeetingCommandService (IMeetingRepository meetingRepository
 
         return meeting;
     }
+
+    public async Task Handle(AddTeacherToMeetingCommand command)
+    {
+        var meeting = await meetingRepository.FindByIdAsync(command.MeetingId);
+        
+        if (meeting == null)
+            throw new ArgumentException("Meeting not found.");
+        if (!externalProfileService.ValidateTeacherExistence(command.TeacherId))
+            throw new ArgumentException("Teacher does not exist.");
+        try
+        {
+            meeting.TeacherIdBuilder(command.TeacherId);
+            meeting.AddTeacherToMeeting(command.MeetingId);
+            await unitOfWork.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

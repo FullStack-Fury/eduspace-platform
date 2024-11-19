@@ -3,12 +3,13 @@ using FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.ValueObjects
 
 namespace FULLSTACKFURY.EduSpace.API.ReservationScheduling.Domain.Model.Aggregates;
 
-public class Meeting
+public partial class Meeting
 {
     public int Id { get; private set; }
     public string Title { get; private set; }
     public string Description { get; private set; }
     public DateOnly Date { get; private set; }
+    
     public TimeOnly StartTime { get; private set; } 
     public TimeOnly EndTime { get; private set; }
     

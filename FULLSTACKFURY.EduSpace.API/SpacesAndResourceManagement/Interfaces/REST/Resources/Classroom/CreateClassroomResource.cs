@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Classroom;
 
 /// <summary>
 ///  Represents the data required to create a new classroom.
@@ -12,4 +12,4 @@
 /// <param name="TeacherId">
 /// The Teacher identifier of the classroom
 /// </param>
-public record CreateClassroomResource(string Name, string Description, int TeacherId);
+public record CreateClassroomResource(string Name, string Description);

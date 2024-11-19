@@ -1,5 +1,5 @@
 ﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Resource;
 
 namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services;
 
@@ -9,4 +9,6 @@ namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Services
 public interface IResourceCommandService
 {
     Task<Resource?> Handle(CreateResourceCommand command);
+    Task Handle(DeleteResourceCommand command);
+    Task<Resource?> Handle(UpdateResourceCommand command);
 }

@@ -1,4 +1,4 @@
-﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands;
+﻿namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Commands.Classroom;
 
 /// <summary>
 /// Command to create a classroom.

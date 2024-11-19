@@ -1,7 +1,7 @@
-﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Domain.Model.Aggregates;
-using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources;
+﻿using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Resources.Resource;
+using FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.Classroom;
 
-namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform;
+namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST.Transform.Resource;
 
 /// <summary>
 /// Assembler for converting Resource entities to Resource resources.
@@ -17,9 +17,8 @@ public class ResourceResourceFromEntityAssembler
     /// <returns>
     /// The resulting <see cref="ResourceResource"/> resource with the values from the entity
     /// </returns>
-    public static ResourceResource ToResourceFromEntity(Resource entity)
+    public static ResourceResource ToResourceFromEntity(Domain.Model.Aggregates.Resource entity)
     {
-        return new ResourceResource(entity.Id, entity.Name, entity.KindOfResource,
-            ClassroomResourceFromEntityAssembler.ToResourceFromEntity(entity.Classroom));
+        return new ResourceResource(entity.Id, entity.Name, entity.KindOfResource, ClassroomResourceFromEntityAssembler.ToResourceFromEntity(entity.Classroom));
     }
 }
