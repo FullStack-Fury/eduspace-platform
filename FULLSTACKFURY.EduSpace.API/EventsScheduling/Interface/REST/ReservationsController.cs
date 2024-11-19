@@ -9,21 +9,21 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace FULLSTACKFURY.EduSpace.API.EventsScheduling.Interface.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/")]
 [Produces(MediaTypeNames.Application.Json)]
 public class ReservationsController(IReservationCommandService reservationCommandService, IReservationQueryService reservationQueryService)
     : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("teachers/{teacherId:int}/areas/{areaId:int}/reservations")]
     [SwaggerOperation(
         Summary = "Creates a reservation",
         Description = "Creates a reservation to a specific area",
         OperationId = "CreateReservation"
     )]
     [SwaggerResponse(201, "The category was created", typeof(ReservationResource))]
-    public async Task<IActionResult> CreateReservation([FromBody] CreateReservationResource resource)
+    public async Task<IActionResult> CreateReservation([FromRoute] int teacherId, [FromRoute] int areaId , [FromBody] CreateReservationResource resource)
     {
-        var createReservationCommand = CreateReservationCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var createReservationCommand = CreateReservationCommandFromResourceAssembler.ToCommandFromResource(areaId, teacherId, resource);
         var reservation = await reservationCommandService.Handle(createReservationCommand);
        
         if (reservation is null) return BadRequest();
@@ -32,7 +32,7 @@ public class ReservationsController(IReservationCommandService reservationComman
         return Ok(reservationResource);
     }
 
-    [HttpGet]
+    [HttpGet("[controller]")]
     public async Task<IActionResult> GetAllReservations()
     {
         var getAllReservationsQuery = new GetAllReservationsQuery();
@@ -41,7 +41,7 @@ public class ReservationsController(IReservationCommandService reservationComman
         return Ok(resources);
     }
 
-    [HttpGet("areas/{areaId:int}")]
+    [HttpGet("areas/{areaId:int}/[controller]")]
     public async Task<IActionResult> GetAllReservationsByAreaId([FromRoute] int areaId)
     {
         var getAllReservationsByAreaIdQuery = new GetAllReservationsByAreaIdQuery(areaId);
