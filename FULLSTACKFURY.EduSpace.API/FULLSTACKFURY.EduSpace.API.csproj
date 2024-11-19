@@ -11,6 +11,13 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
         <!-- EntityFrameworkCore Database Persistence related packages -->
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8"/>
+        <!-- BCrypt Encryption related packages -->
+        <PackageReference Include="BCrypt.Net-Next" Version="4.0.3"/>
+        <!-- JSON Web Token related packages -->
+        <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.10"/>
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.2.0"/>
+        
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.8"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Relational.Design" Version="1.1.6"/>
         <!-- MySQL Database Persistence related packages -->
@@ -22,6 +29,11 @@
         <!-- OpenAPI documentation related packages -->
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1"/>
         <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.8.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="SpacesAndResourceManagement\Application\OutboundServices\" />
+      <Folder Include="SpacesAndResourceManagement\Domain\Model\Entities\" />
     </ItemGroup>
 
 </Project>

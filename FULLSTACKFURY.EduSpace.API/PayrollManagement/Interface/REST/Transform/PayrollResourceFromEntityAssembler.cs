@@ -26,8 +26,7 @@ public static class PayrollResourceFromEntityAssembler
             entity.TeacherId,
             entity.SalaryAmount.Value, // Valor directo de SalaryAmount
             entity.PayrollAdjustment.PensionContribution, // Valor directo de PensionContribution
-            entity.PayrollAdjustment.SalaryBonus, // Valor directo de SalaryBonus desde PayrollAdjustment
-            entity.DatePayment.Value // Valor directo de DatePayment
+            entity.PayrollAdjustment.SalaryBonus // Valor directo de SalaryBonus desde PayrollAdjustment
         );
     }
 

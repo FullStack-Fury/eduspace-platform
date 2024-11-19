@@ -13,6 +13,6 @@ public class ProfilesContextFacade(ITeacherProfileRepository teacherProfileRepos
 
     public bool ValidateAdminProfileIdExistence(int id)
     {
-        return teacherProfileRepository.ExistsByTeacherProfileId(id);
+        return adminProfileRepository.ExistsByAdminProfileId(id);
     }
 }

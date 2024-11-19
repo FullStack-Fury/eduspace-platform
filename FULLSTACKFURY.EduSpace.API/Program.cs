@@ -1,8 +1,3 @@
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.CommandServices;
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Application.Internal.QueryServices;
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Repositories;
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Domain.Services;
-using FULLSTACKFURY.EduSpace.API.BreakdownManagement.Infrastructure.Persistence.EFC.Repositories;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.CommandServices;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.OutboundServices;
 using FULLSTACKFURY.EduSpace.API.EventsScheduling.Application.Internal.QueryServices;
@@ -38,10 +33,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Environment variables//
 
-string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "hostlocal";
-string user = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "1234";
-string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "pruebaf";
+string server = Environment.GetEnvironmentVariable("DB_SERVER") ?? "";
+string user = Environment.GetEnvironmentVariable("DB_USER") ?? "";
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
+string database = Environment.GetEnvironmentVariable("DB_NAME") ?? "";
 
 string connectionString = $"server={server};user={user};password={password};database={database}";
 
@@ -130,51 +125,10 @@ builder.Services.AddScoped<IPayrollRepository, PayrollRepository>();
 builder.Services.AddScoped<IPayrollQueryService, PayrollQueryService>();
 
 
-// Report BC
-builder.Services.AddScoped<IReportCommandService, ReportCommandService>();  // Service for handling report commands
-builder.Services.AddScoped<IReportQueryService, ReportQueryService>();  // Service for handling report queries
-builder.Services.AddScoped<IReportRepository, ReportRepository>();  // Repository for interacting with the Report database
 
 
-//Reservation Scheduling
 
-builder.Services.AddScoped<IMeetingRepository, MeetingRepository>();
-builder.Services.AddScoped<IMeetingCommandService, MeetingCommandService>();
-builder.Services.AddScoped<IMeetingQueryService, MeetingQueryService>();
-builder.Services.AddScoped<IExternalClassroomService, ExternalClassroomServices>();
-builder.Services.AddScoped<IRExternalProfileService, RExternalProfileServices>();
 
-// Spaces and Resource BC
-// Classrooms
-builder.Services.AddScoped<FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Application.OutboundServices.ACL.IExternalProfileService, ExternalProfileService>();
-builder.Services.AddScoped<IClassroomRepository, ClassroomRepository>();
-builder.Services.AddScoped<IClassroomCommandService, ClassroomCommandService>();
-builder.Services.AddScoped<IClassroomQueryService, ClassroomQueryService>();
-// Resources
-builder.Services.AddScoped<IResourceRepository, ResourceRepository>();
-builder.Services.AddScoped<IResourceCommandService, ResourceCommandService>();
-builder.Services.AddScoped<IResourceQueryService, ResourceQueryService>();
-
-builder.Services.AddScoped<ISpacesAndResourceManagementFacade, SpacesAndResourceManagementFacade>();
-
-// Shared Areas
-builder.Services.AddScoped<ISharedAreaRepository, SharedAreaRepository>();
-builder.Services.AddScoped<ISharedAreaCommandService, SharedAreaCommandService>();
-builder.Services.AddScoped<ISharedAreaQueryService, SharedAreaQueryService>();
-
-//Token Settings Configuration
-builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
-
-builder.Services.AddScoped<IAccountRepository, AccountRepository>();
-builder.Services.AddScoped<IAccountCommandService, AccountCommandService>();
-builder.Services.AddScoped<IAccountQueryService, AccountQueryService>();
-
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IHashingService, HashingService>();
-
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddProblemDetails();
 
 
 

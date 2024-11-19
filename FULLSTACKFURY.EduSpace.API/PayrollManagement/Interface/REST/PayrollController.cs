@@ -24,7 +24,7 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     /// <returns>
     /// The <see cref="PayrollResource"/> if created successfully; otherwise, <see cref="BadRequestResult"/>.
     /// </returns>
-    [HttpPost]
+    [HttpPost("teachers{teacherId:int}")]
     [SwaggerOperation(
         Summary = "Creates a payroll entry",
         Description = "Creates a payroll entry for a specific teacher",
@@ -32,9 +32,9 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     )]
     [SwaggerResponse(201, "The payroll entry was created", typeof(PayrollResource))]
     [SwaggerResponse(StatusCodes.Status400BadRequest, "The payroll entry was not created")]
-    public async Task<IActionResult> CreatePayroll([FromBody] CreatePayrollResource resource)
+    public async Task<IActionResult> CreatePayroll([FromRoute] int teacherId ,[FromBody] CreatePayrollResource resource)
     {
-        var createPayrollCommand = CreatePayrollCommandFromResourceAssembler.ToCommand(resource);
+        var createPayrollCommand = CreatePayrollCommandFromResourceAssembler.ToCommand(teacherId, resource);
         var payroll = await payrollCommandService.Handle(createPayrollCommand);
        
         if (payroll is null) return BadRequest();
@@ -60,30 +60,6 @@ public class PayrollsController(IPayrollCommandService payrollCommandService, IP
     {
         var getAllPayrollsQuery = new GetAllPayrollsQuery();
         var payrolls = await payrollQueryService.Handle(getAllPayrollsQuery);
-        var resources = payrolls.Select(PayrollResourceFromEntityAssembler.ToResourceFromEntity);
-        return Ok(resources);
-    }
-
-    /// <summary>
-    /// Retrieves payroll entries by teacher ID.
-    /// </summary>
-    /// <param name="teacherId">
-    /// The ID of the teacher whose payroll entries are to be retrieved.
-    /// </param>
-    /// <returns>
-    /// The list of <see cref="PayrollResource"/> entries for the specified teacher.
-    /// </returns>
-    [HttpGet("teachers/{teacherId:int}")]
-    [SwaggerOperation(
-        Summary = "Get payroll entries by teacher ID",
-        Description = "Get all payroll entries for a specific teacher",
-        OperationId = "GetAllPayrollsByTeacherId"
-    )]
-    [SwaggerResponse(StatusCodes.Status200OK, "The payroll entries for the teacher were successfully retrieved", typeof(IEnumerable<PayrollResource>))]
-    public async Task<IActionResult> GetAllPayrollsByTeacherId([FromRoute] int teacherId)
-    {
-        var getAllPayrollsByTeacherIdQuery = new GetPayrollByTeacherIdQuery(teacherId);
-        var payrolls = await payrollQueryService.Handle(getAllPayrollsByTeacherIdQuery);
         var resources = payrolls.Select(PayrollResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }

@@ -18,7 +18,6 @@ public partial class Payroll
     public int TeacherId { get; private set; }
     public SalaryAmount SalaryAmount { get; private set; }
     public PayrollAdjustment PayrollAdjustment { get; private set; }
-    public DatePayment DatePayment { get; private set; }
     public decimal SalaryNet { get; private set; }
 
     /// <summary>
@@ -34,7 +33,6 @@ public partial class Payroll
         TeacherId = command.TeacherId;
         SalaryAmount = new SalaryAmount(command.SalaryAmount);
         PayrollAdjustment = new PayrollAdjustment(CalculatePensionContribution(command.SalaryAmount), command.SalaryBonus);
-        DatePayment = new DatePayment(command.DatePayment);
         SalaryNet = CalculateSalaryNet(command.SalaryAmount,PayrollAdjustment.PensionContribution, command.SalaryBonus);
     }
 }
