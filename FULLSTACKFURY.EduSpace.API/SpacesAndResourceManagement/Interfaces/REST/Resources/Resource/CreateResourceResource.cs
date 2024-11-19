@@ -12,4 +12,4 @@
 /// <param name="ClassroomId">
 /// The id of the Classroom
 /// </param>
-public record CreateResourceResource(string Name, string KindOfResource, int ClassroomId);
+public record CreateResourceResource(string Name, string KindOfResource);

@@ -8,8 +8,8 @@ namespace FULLSTACKFURY.EduSpace.API.SpacesAndResourceManagement.Interfaces.REST
 /// </summary>
 public class CreateResourceCommandFromResourceAssembler
 {
-    public static CreateResourceCommand ToCommandFromResource(CreateResourceResource resource)
+    public static CreateResourceCommand ToCommandFromResource(int classroomId, CreateResourceResource resource)
     {
-        return new CreateResourceCommand(resource.Name, resource.KindOfResource, resource.ClassroomId);
+        return new CreateResourceCommand(resource.Name, resource.KindOfResource, classroomId);
     }
 }
